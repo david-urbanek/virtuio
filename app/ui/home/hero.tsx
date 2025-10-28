@@ -20,7 +20,7 @@ const features = [
 const Hero = () => {
 
     const featuresElements = features.map((feature, index): React.ReactNode => (
-        <div key={index} className='flex flex-col items-center py-4 px-2 gap-2 rounded-lg text-center glass h-fit animate-float'>
+        <div key={index} className='flex flex-col items-center py-4 px-2 gap-2 rounded-lg text-center glass h-fit animate-float max-w-24'>
             <feature.icon size={24} />
             <p className='font-semibold'>{feature.title}</p>
         </div>
@@ -40,7 +40,7 @@ const Hero = () => {
                     </div>
                 </div>
                 {/* Hero image */}
-                <div>
+                <div className='animate-float'>
                     <Image src={heroImage}
                            alt="Obrázek virtualního headsetu Meta Quest 3"
                            placeholder='blur'

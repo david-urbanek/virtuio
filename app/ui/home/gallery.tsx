@@ -3,6 +3,14 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import beatSaberImage from "@/app/assets/home/games/beat-saber.jpg";
+import superHotImage from "@/app/assets/home/games/super-hot.webp";
+import brinkTravelerImage from "@/app/assets/home/games/bring-traveler.jpg";
+import elevenTableTennisImage from "@/app/assets/home/games/table-tenis.webp";
+import aimXRImage from "@/app/assets/home/games/aim-xr.jpg";
+import firstHandImage from "@/app/assets/home/games/first-hand.png";
+import epicRollerCoastersImage from "@/app/assets/home/games/epic-roller-coasters.jpg";
+
 import { Button } from "@/components/ui/button";
 import type { CarouselApi } from "@/components/ui/carousel";
 import {
@@ -10,13 +18,15 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
+import Image from "next/image";
+import {StaticImport} from "next/dist/shared/lib/get-img-props";
 
 interface GalleryItem {
     id: string;
     title: string;
     summary: string;
     url: string;
-    image: string;
+    image: string | StaticImport;
 }
 
 interface Gallery6Props {
@@ -25,49 +35,66 @@ interface Gallery6Props {
     items?: GalleryItem[];
 }
 
+
 const Gallery6 = ({
-                      heading = "Gallery",
+                      heading = "U nás si vyzkoušíte to nejlepší z VR",
                       demoUrl = "https://www.shadcnblocks.com",
                       items = [
                           {
                               id: "item-1",
-                              title: "Build Modern UIs",
+                              title: "Beat Saber",
                               summary:
-                                  "Create stunning user interfaces with our comprehensive design system.",
+                                  "Rytmická hra, kde sekáš kostky do rytmu hudby. Skvělá zábava a perfektní trénink reflexů.",
                               url: "#",
-                              image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
+                              image: beatSaberImage,
                           },
                           {
                               id: "item-2",
-                              title: "Computer Vision Technology",
+                              title: "Superhot VR",
                               summary:
-                                  "Powerful image recognition and processing capabilities that allow AI systems to analyze, understand, and interpret visual information from the world.",
+                                  "Čas se hýbe, jen když se hýbeš ty. Strategická akce, která tě vtáhne naplno.",
                               url: "#",
-                              image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
+                              image: superHotImage,
                           },
                           {
                               id: "item-3",
-                              title: "Machine Learning Automation",
+                              title: "Brink Traveler",
                               summary:
-                                  "Self-improving algorithms that learn from data patterns to automate complex tasks and make intelligent decisions with minimal human intervention.",
+                                  "Procestuj svět z pohodlí domova. Realistické 3D lokace a dechberoucí výhledy.",
                               url: "#",
-                              image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
+                              image: brinkTravelerImage,
                           },
                           {
                               id: "item-4",
-                              title: "Predictive Analytics",
+                              title: "Eleven Table Tennis",
                               summary:
-                                  "Advanced forecasting capabilities that analyze historical data to predict future trends and outcomes, helping businesses make data-driven decisions.",
+                                  "Nejrealističtější stolní tenis ve VR. Skvělý pro soutěžení i zlepšování reflexů.",
                               url: "#",
-                              image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
+                              image: elevenTableTennisImage,
                           },
                           {
                               id: "item-5",
-                              title: "Neural Network Architecture",
+                              title: "AIM XR",
                               summary:
-                                  "Sophisticated AI models inspired by human brain structure, capable of solving complex problems through deep learning and pattern recognition.",
+                                  "Multiplayerová akční střílečka, kde rozhoduje přesnost, týmová spolupráce a rychlé reakce.",
                               url: "#",
-                              image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-1.svg",
+                              image: aimXRImage,
+                          },
+                          {
+                              id: "item-6",
+                              title: "First Hand",
+                              summary:
+                                  "Ideální hra pro začátečníky ve VR. Vyzkoušej si virtuální svět s humorem a stylem.",
+                              url: "#",
+                              image: firstHandImage,
+                          },
+                          {
+                              id: "item-7",
+                              title: "Epic Roller Coasters",
+                              summary:
+                                  "Zažij jízdu na horské dráze, kterou bys v reálu nezvládl. Adrenalin zaručen!",
+                              url: "#",
+                              image: epicRollerCoastersImage,
                           },
                       ],
                   }: Gallery6Props) => {
@@ -89,18 +116,18 @@ const Gallery6 = ({
         };
     }, [carouselApi]);
     return (
-        <section className="py-32">
+        <section className="w-full">
             <div className="container">
                 <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
                     <div>
-                        <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
+                        <h2 className="mb-3">
                             {heading}
                         </h2>
                         <a
                             href={demoUrl}
-                            className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
+                            className="group flex items-center gap-1 text-sm font-semibold md:text-base lg:text-lg"
                         >
-                            Book a demo
+                            Zarezervovat si termín
                             <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1" />
                         </a>
                     </div>
@@ -153,10 +180,10 @@ const Gallery6 = ({
                                         <div className="aspect-3/2 flex overflow-clip rounded-xl">
                                             <div className="flex-1">
                                                 <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                                                    <img
+                                                    <Image
                                                         src={item.image}
                                                         alt={item.title}
-                                                        className="h-full w-full object-cover object-center"
+                                                        className="h-full w-full"
                                                     />
                                                 </div>
                                             </div>
@@ -169,7 +196,7 @@ const Gallery6 = ({
                                         {item.summary}
                                     </div>
                                     <div className="flex items-center text-sm">
-                                        Read more{" "}
+                                        Odkaz na trailer{" "}
                                         <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
                                     </div>
                                 </a>

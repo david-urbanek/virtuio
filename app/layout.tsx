@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import {inter} from "./ui/fonts";
 import "./globals.css";
 import {Navbar17} from "@/app/ui/navbar/navbar17";
+import Contact from "@/app/ui/contact/contact";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -16,15 +17,17 @@ export default function RootLayout({
     return (
         <html lang="cs">
         <body
-            className={`${inter.className}  antialiased w-full flex flex-col items-center justify-center px-8`}
+            className={`${inter.className}  antialiased min-w-screen flex flex-col items-center justify-center px-8 min-h-[100dvh]`}
         >
         <header className='container flex flex-col items-center justify-center'>
             <Navbar17></Navbar17>
         </header>
-        <main className='container flex flex-col items-center justify-center'>
+        <main className='container flex flex-col items-center justify-center gap-16'>
             {children}
         </main>
-        <footer></footer>
+        <footer>
+            <Contact></Contact>
+        </footer>
         </body>
         </html>
     );
