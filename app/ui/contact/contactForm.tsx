@@ -51,6 +51,7 @@ export function ContactForm() {
                             <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
                             <NativeSelectOption value="done">Done</NativeSelectOption>
                             <NativeSelectOption value="cancelled">Cancelled</NativeSelectOption>
+                            <NativeSelectOption value="cancelled">Proof</NativeSelectOption>
                         </NativeSelect>
                     </Field>
                     <Field>
