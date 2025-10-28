@@ -20,7 +20,7 @@ import {
 export function ContactForm() {
     const formAction = ()=>{};
     return (
-        <Form action={formAction()} className="w-full max-w-md">
+        <div className="w-full max-w-md">
             <FieldSet>
                 <FieldGroup>
                     <div className='grid grid-cols-2 gap-4'>
@@ -81,6 +81,6 @@ export function ContactForm() {
                     </Field>
                 </FieldGroup>
             </FieldSet>
-        </Form>
+        </div>
     )
 }
