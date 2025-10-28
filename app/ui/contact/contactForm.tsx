@@ -15,6 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import {NativeSelect, NativeSelectOption} from "@/components/ui/native-select";
 
 
 export function ContactForm() {
@@ -44,25 +45,13 @@ export function ContactForm() {
                     <Field>
                         <FieldLabel htmlFor="city">Město:</FieldLabel>
                         <FieldDescription>Zatím pouze operujeme v Brně!</FieldDescription>
-                        <Select defaultValue="">
-                            <SelectTrigger id="checkout-exp-month-ts6">
-                                <SelectValue placeholder="MM" />
-                            </SelectTrigger>
-                            <SelectContent position='popper'>
-                                <SelectItem value="01">01</SelectItem>
-                                <SelectItem value="02">02</SelectItem>
-                                <SelectItem value="03">03</SelectItem>
-                                <SelectItem value="04">04</SelectItem>
-                                <SelectItem value="05">05</SelectItem>
-                                <SelectItem value="06">06</SelectItem>
-                                <SelectItem value="07">07</SelectItem>
-                                <SelectItem value="08">08</SelectItem>
-                                <SelectItem value="09">09</SelectItem>
-                                <SelectItem value="10">10</SelectItem>
-                                <SelectItem value="11">11</SelectItem>
-                                <SelectItem value="12">12</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <NativeSelect>
+                            <NativeSelectOption value="">Select status</NativeSelectOption>
+                            <NativeSelectOption value="todo">Todo</NativeSelectOption>
+                            <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+                            <NativeSelectOption value="done">Done</NativeSelectOption>
+                            <NativeSelectOption value="cancelled">Cancelled</NativeSelectOption>
+                        </NativeSelect>
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="adress">Adresa + Číslo popisné:</FieldLabel>
