@@ -1,6 +1,6 @@
-import {ContactForm} from "@/app/ui/contact/contactForm";
+import { ContactForm } from "@/app/ui/contact/contactForm";
 import Image from "next/image";
-import backgroundObject from "@/app/assets/contact/objects.png";
+import backgroundObject from "@/app/assets/contact/contact-img.png";
 
 
 const Contact = () => {

@@ -7,22 +7,22 @@ import {
     FieldLabel, FieldSeparator,
     FieldSet,
 } from "@/components/ui/field"
-import {Input} from "@/components/ui/input"
-import {Button} from "@/components/ui/button";
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
 import Form from "next/form";
-import {NativeSelect, NativeSelectOption} from "@/components/ui/native-select";
-import React, {useEffect} from "react";
-import {ListCheck} from "lucide-react";
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
+import React, { useEffect } from "react";
+import { ListCheck } from "lucide-react";
 
 
 export function ContactForm() {
     const [formData, setFormData] = React.useState({
         date: new Date(),
-        numberOfDays: 2,
+        numberOfDays: 1,
     });
 
     const [endDate, setEndDate] = React.useState(countDate(formData.date, formData.numberOfDays));
-    const [deliveryDate, setDeliveryDate] = React.useState(countDate(formData.date, -1));
+    const [deliveryDate, setDeliveryDate] = React.useState(countDate(formData.date, 0));
 
     function countDate(startDate: Date, numberOfDays: number) {
         const endDate = new Date(startDate);
@@ -31,7 +31,7 @@ export function ContactForm() {
     }
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const {id, value} = event.target;
+        const { id, value } = event.target;
 
         setFormData((prevData) => ({
             ...prevData,
@@ -50,7 +50,7 @@ export function ContactForm() {
     }, [formData]);
 
     useEffect(() => {
-        const newDeliveryDate = countDate(formData.date, -1);
+        const newDeliveryDate = countDate(formData.date, 0);
         setDeliveryDate(newDeliveryDate)
     }, [formData]);
 
@@ -66,20 +66,20 @@ export function ContactForm() {
                     <div className='grid grid-cols-2 gap-4'>
                         <Field>
                             <FieldLabel htmlFor="name">Jméno:</FieldLabel>
-                            <Input id="name" type="text" placeholder="Jan"/>
+                            <Input id="name" type="text" placeholder="Jan" />
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="surname">Přijmení:</FieldLabel>
-                            <Input id="surname" type="text" placeholder="Novák"/>
+                            <Input id="surname" type="text" placeholder="Novák" />
                         </Field>
                     </div>
                     <Field>
                         <FieldLabel htmlFor="email">Email:</FieldLabel>
-                        <Input id="email" type="email" placeholder="jan.novak@email.cz"/>
+                        <Input id="email" type="email" placeholder="jan.novak@email.cz" />
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="telephone">Telefon:</FieldLabel>
-                        <Input id="telephone" type="email" placeholder="+420 606 980 435" required/>
+                        <Input id="telephone" type="email" placeholder="+420 606 980 435" required />
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="city">Město:</FieldLabel>
@@ -90,7 +90,7 @@ export function ContactForm() {
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="adress">Adresa + Číslo popisné:</FieldLabel>
-                        <Input id="adress" type="text" placeholder="Pekařská 18"/>
+                        <Input id="adress" type="text" placeholder="Pekařská 18" />
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="date">Datum začátku rezervace:</FieldLabel>
@@ -105,8 +105,8 @@ export function ContactForm() {
                         <FieldLabel htmlFor="numberOfDays">Počet dní</FieldLabel>
                         <FieldDescription>Váš zvolený počet dní: <span
                             className='font-bold text-black'>{formData.numberOfDays}</span></FieldDescription>
-                        <Input id="numberOfDays" type="range" placeholder="Pekařská 18" min={2} max={8} step={1}
-                               defaultValue={2} onChange={handleChange}/>
+                        <Input id="numberOfDays" type="range" placeholder="Pekařská 18" min={1} max={8} step={1}
+                            defaultValue={1} onChange={handleChange} />
                     </Field>
                     <FieldSeparator></FieldSeparator>
                     <Field>
@@ -118,9 +118,12 @@ export function ContactForm() {
                         </div>
                         <p>
                             <span className='font-semibold'>Termín:</span> Od <span
-                            className='font-bold text-black'>{formData.date.toLocaleDateString('cs-CZ')}</span> do <span
-                            className='font-bold text-black'>{endDate.toLocaleDateString('cs-CZ')}</span> na <span
-                            className='font-bold text-black'>{formData.numberOfDays}</span> dní.
+                                className='font-bold text-black'>{formData.date.toLocaleDateString('cs-CZ')}</span> do <span
+                                    className='font-bold text-black'>{endDate.toLocaleDateString('cs-CZ')}</span>
+                        </p>
+                        <p>
+                            <span className='font-semibold'>Celková cena:</span> <span
+                                className='font-bold text-black'>{formData.numberOfDays * 1300} Kč</span>
                         </p>
                         <div>
                             <p className='font-semibold'>
@@ -128,12 +131,12 @@ export function ContactForm() {
                             </p>
                             <p>
                                 Váš VR headset Vám přivezeme <span
-                                className='font-semibold'>{deliveryDate.toLocaleDateString('cs-CZ')}</span> okolo <span
-                                className='font-semibold'>18:00</span> a
+                                    className='font-semibold'>{deliveryDate.toLocaleDateString('cs-CZ')}</span> okolo <span
+                                        className='font-semibold'>18:00</span> a
                                 vyzvedneme si ho <span
-                                className='font-semibold'>{endDate.toLocaleDateString('cs-CZ')}</span> opět
+                                    className='font-semibold'>{endDate.toLocaleDateString('cs-CZ')}</span> opět
                                 okolo <span
-                                className='font-semibold'>18:00</span>.
+                                    className='font-semibold'>18:00</span>.
                             </p>
                         </div>
                     </Field>

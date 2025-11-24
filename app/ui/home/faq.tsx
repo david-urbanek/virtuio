@@ -11,25 +11,25 @@ interface Faq2Props {
 }
 
 const Faq2 = ({
-                  heading = "Často kladené otázky?",
-                  items = [
-                      {
-                          question: "Jaká je cena pronájmu?",
-                          answer:
-                              "Cena je 1300Kč/den za jeden VR headset. Minimální dobou pronájmu jsou dva dny",
-                      },
-                      {
-                          question: "What is the purpose of a FAQ?",
-                          answer:
-                              "The purpose of a FAQ is to provide answers to common questions and help users find the information they need quickly and easily.",
-                      },
-                      {
-                          question: "How do I create a FAQ?",
-                          answer:
-                              "To create a FAQ, you need to compile a list of common questions and answers on a particular topic and organize them in a clear and easy-to-navigate format.",
-                      },
-                  ],
-              }: Faq2Props) => {
+    heading = "Často kladené otázky?",
+    items = [
+        {
+            question: "Jaká je cena pronájmu?",
+            answer:
+                "Cena je 1300Kč/den za jeden VR headset.",
+        },
+        {
+            question: "What is the purpose of a FAQ?",
+            answer:
+                "The purpose of a FAQ is to provide answers to common questions and help users find the information they need quickly and easily.",
+        },
+        {
+            question: "How do I create a FAQ?",
+            answer:
+                "To create a FAQ, you need to compile a list of common questions and answers on a particular topic and organize them in a clear and easy-to-navigate format.",
+        },
+    ],
+}: Faq2Props) => {
     return (
         <section id='faq'>
             <div className="container max-w-3xl">
@@ -39,8 +39,7 @@ const Faq2 = ({
                 <div className="space-y-8">
                     <div className="border-b pb-6">
                         <h3 className="mb-2 font-semibold">Jaká je cena pronájmu?</h3>
-                        <p className="text-muted-foreground">Cena je <span className='font-semibold text-black'>1300Kč/den</span> za jeden VR headset. Minimální dobou
-                            pronájmu jsou dva dny.</p>
+                        <p className="text-muted-foreground">Cena je <span className='font-semibold text-black'>1300Kč/den</span> za jeden VR headset.</p>
                     </div>
                     <div className="border-b pb-6">
                         <h3 className="mb-2 font-semibold">Vysvětlíte mi jak VR ovládat?</h3>
@@ -56,7 +55,7 @@ const Faq2 = ({
                     <div className="border-b pb-6">
                         <h3 className="mb-2 font-semibold">Jak probíha proces rezervace?</h3>
                         <p className="text-muted-foreground">Po odeslání <span className="font-semibold text-black">nezávazné rezervace</span> Vám do 24&nbsp;hodin zašleme fakturu s částkou za
-                            pronájem. Faktura má splatnost <span className="font-semibold text-black">2&nbsp;dny</span> – po jejím uhrazení Vám
+                            pronájem. Po jejím uhrazení Vám
                             <span className="font-semibold text-black"> VR headset zarezervujeme</span> na Vámi zvolený termín.
                         </p>
                     </div>
@@ -66,4 +65,4 @@ const Faq2 = ({
     );
 };
 
-export {Faq2};
+export { Faq2 };
