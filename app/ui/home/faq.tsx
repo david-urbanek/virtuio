@@ -31,7 +31,7 @@ const Faq2 = ({
                   ],
               }: Faq2Props) => {
     return (
-        <section>
+        <section id='faq'>
             <div className="container max-w-3xl">
                 <h2 className="mb-4">
                     {heading}
@@ -39,18 +39,26 @@ const Faq2 = ({
                 <div className="space-y-8">
                     <div className="border-b pb-6">
                         <h3 className="mb-2 font-semibold">Jaká je cena pronájmu?</h3>
-                        <p className="text-muted-foreground">Cena je 1300Kč/den za jeden VR headset. Minimální dobou
+                        <p className="text-muted-foreground">Cena je <span className='font-semibold text-black'>1300Kč/den</span> za jeden VR headset. Minimální dobou
                             pronájmu jsou dva dny.</p>
                     </div>
                     <div className="border-b pb-6">
                         <h3 className="mb-2 font-semibold">Vysvětlíte mi jak VR ovládat?</h3>
-                        <p className="text-muted-foreground">Ano, zcela zdarma Vám ukážeme jak s VR zacházet.</p>
+                        <p className="text-muted-foreground">Ano, zcela <span className='font-semibold text-black'>zdarma</span> Vám ukážeme jak s VR zacházet.</p>
                     </div>
                     <div className="border-b pb-6">
                         <h3 className="mb-2 font-semibold">Jak se ke mně VR dostane?</h3>
                         <p className="text-muted-foreground">Váš pronajatý VR headset Vám osobně doručíme kamkoliv
-                            po Brně – dopravu už máte v ceně. Headset přivezeme den předem odpoledne a po skončení
-                            pronájmu si ho zase pohodlně vyzvedneme večer.</p>
+                            po <span className='font-semibold text-black'>Brně</span> – dopravu už máte v ceně. Headset přivezeme den předem odpoledne a po skončení
+                            pronájmu si ho zase pohodlně vyzvedneme večer.
+                        </p>
+                    </div>
+                    <div className="border-b pb-6">
+                        <h3 className="mb-2 font-semibold">Jak probíha proces rezervace?</h3>
+                        <p className="text-muted-foreground">Po odeslání <span className="font-semibold text-black">nezávazné rezervace</span> Vám do 24&nbsp;hodin zašleme fakturu s částkou za
+                            pronájem. Faktura má splatnost <span className="font-semibold text-black">2&nbsp;dny</span> – po jejím uhrazení Vám
+                            <span className="font-semibold text-black"> VR headset zarezervujeme</span> na Vámi zvolený termín.
+                        </p>
                     </div>
                 </div>
             </div>

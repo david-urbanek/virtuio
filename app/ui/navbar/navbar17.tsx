@@ -15,18 +15,21 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import Link from "next/link";
+import Image from "next/image";
 
 const NAV_LOGO = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
-    alt: "logo",
-    title: "Shadcnblocks.com",
+    url: "/",
+    src: "/logo/virtuio-logo.svg",
+    alt: "Logo firmy virtuio.cz",
+    width: 139,
+    height: 29
 };
 const NAV_ITEMS = [
-    { name: "Home", link: "#" },
-    { name: "About", link: "#" },
-    { name: "Pricing", link: "#" },
-    { name: "Contact", link: "#" },
+    { name: "Reference", link: "/#reference" },
+    { name: "Hry", link: "/#games" },
+    { name: "FAQ", link: "/#faq" },
+    { name: "Kontakt", link: "/kontakt" },
 ];
 
 const Navbar17 = () => {
@@ -59,12 +62,9 @@ const Navbar17 = () => {
         <section className="py-4 w-full">
             <nav className="container flex items-center justify-between">
                 {/* Left WordMark */}
-                <a href={NAV_LOGO.url} className="flex items-center gap-2">
-                    <img src={NAV_LOGO.src} className="max-h-8 w-8" alt={NAV_LOGO.alt} />
-                    <span className="text-lg font-semibold tracking-tighter">
-            {NAV_LOGO.title}
-          </span>
-                </a>
+                <Link href={NAV_LOGO.url} className="flex items-center gap-2">
+                    <Image src={NAV_LOGO.src} className='max-h-6 pr-6' alt={NAV_LOGO.alt} width={NAV_LOGO.width} height={NAV_LOGO.height} />
+                </Link>
 
                 <NavigationMenu className="hidden lg:block">
                     <NavigationMenuList
@@ -75,6 +75,7 @@ const Navbar17 = () => {
                             <React.Fragment key={item.name}>
                                 <NavigationMenuItem>
                                     <NavigationMenuLink
+                                        asChild
                                         data-nav-item={item.name}
                                         onClick={() => setActiveItem(item.name)}
                                         className={`relative cursor-pointer text-sm font-medium hover:bg-transparent ${
@@ -83,7 +84,9 @@ const Navbar17 = () => {
                                                 : "text-muted-foreground"
                                         }`}
                                     >
-                                        {item.name}
+                                        <Link href={item.link}>
+                                            {item.name}
+                                        </Link>
                                     </NavigationMenuLink>
                                 </NavigationMenuItem>
                             </React.Fragment>
@@ -107,7 +110,9 @@ const Navbar17 = () => {
                         size="sm"
                         className="h-10 py-2.5 text-sm font-normal"
                     >
-                        Sign Up
+                        <Link href='/kontakt'>
+                            Rezervace
+                        </Link>
                     </Button>
                 </div>
             </nav>
