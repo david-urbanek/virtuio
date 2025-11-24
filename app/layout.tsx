@@ -1,9 +1,9 @@
-import type {Metadata} from "next";
-import {inter} from "./ui/fonts";
+import type { Metadata } from "next";
+import { inter } from "./ui/fonts";
 import "./globals.css";
-import {Navbar17} from "@/app/ui/navbar/navbar17";
+import { Navbar17 } from "@/app/ui/navbar/navbar17";
 import Contact from "@/app/ui/contact/contact";
-import {Footer6} from "@/app/ui/footer/footer";
+import { Footer6 } from "@/app/ui/footer/footer";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -11,26 +11,25 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
         <html lang="cs">
-        <body
-            className={`${inter.className}  antialiased min-w-screen flex flex-col items-center justify-center px-8 md:px-16 lg:px-32 min-h-[100dvh]`}
-        >
-        <header className='container flex flex-col items-center justify-center'>
-            <Navbar17></Navbar17>
-        </header>
-        <main className='container flex flex-col gap-16'>
-            {children}
-        </main>
-        <footer className='container w-full mt-16'>
-            <Contact></Contact>
-            <Footer6></Footer6>
-        </footer>
-        </body>
+            <body
+                className={`${inter.className}  antialiased min-w-screen flex flex-col items-center justify-center px-8 md:px-16 lg:px-32 min-h-[100dvh]`}
+            >
+                <header className='container flex flex-col items-center justify-center'>
+                    <Navbar17></Navbar17>
+                </header>
+                <main className='container flex flex-col gap-16'>
+                    {children}
+                </main>
+                <footer className='container w-full mt-16'>
+                    <Footer6></Footer6>
+                </footer>
+            </body>
         </html>
     );
 }
