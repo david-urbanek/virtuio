@@ -1,4 +1,5 @@
 import React from "react";
+import FaqCard from "@/app/ui/home/faqCard";
 
 interface FaqItem {
     question: string;
@@ -60,6 +61,10 @@ const Faq2 = ({
                         </p>
                     </div>
                 </div>
+                <FaqCard title="Jaká je cena pronájmu?" description="Cena je 1300Kč/den za jeden VR headset." />
+                <FaqCard title="Jaká je cena pronájmu?" description="Cena je 1300Kč/den za jeden VR headset." />
+                <FaqCard title="Jaká je cena pronájmu?" description="Cena je 1300Kč/den za jeden VR headset." />
+                <h1>FAQ</h1>
             </div>
         </section>
     );

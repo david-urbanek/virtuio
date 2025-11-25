@@ -9,7 +9,9 @@ const formSchema = z.object({
     name: z.string().min(1, "Zadejte své jméno."),
     surname: z.string().min(1, "Zadejte své příjmení."),
     email: z.email("Zadejte platnou e-mailovou adresu."),
-    phone: z.string().min(1, "Zadejte telefonní číslo."),
+    phone: z.string()
+        .min(9, "Telefonní číslo musí mít alespoň 9 číslic.")
+        .max(15, "Telefonní číslo může mít maximálně 15 znaků."),
     city: z.string().min(1, "Zadejte město."),
     address: z.string().min(1, "Zadejte ulici a číslo popisné."),
     date: z.string().min(1, "Vyberte datum."),

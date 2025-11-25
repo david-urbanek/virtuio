@@ -41,26 +41,30 @@
   --radius-xl: calc(var(--radius) + 4px);
   --animate-marquee: marquee var(--duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
   @keyframes marquee {
-  from {
-    transform: translateX(0);
+    from {
+      transform: translateX(0);
     }
-  to {
-    transform: translateX(calc(-100% - var(--gap)));
+
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
     }
   }
+
   @keyframes marquee-vertical {
-  from {
-    transform: translateY(0);
+    from {
+      transform: translateY(0);
     }
-  to {
-    transform: translateY(calc(-100% - var(--gap)));
+
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
     }
   }
 }
 
 :root {
-  --background: oklch(0.98 0.00 247.86);
+  --background: oklch(0.99 0 0);
   --foreground: oklch(0.28 0.04 260.03);
   --card: oklch(1.00 0 0);
   --card-foreground: oklch(0.28 0.04 260.03);
@@ -157,30 +161,38 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   h1 {
     @apply text-3xl font-bold;
   }
+
   h2 {
-      @apply text-2xl font-semibold md:text-3xl;
+    @apply text-2xl font-semibold md:text-3xl;
   }
+
   p {
     @apply text-base;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  .glass{
-    @apply  bg-gray-50 backdrop-blur-md shadow-md border border-solid border-sidebar-border;
+
+  .glass {
+    @apply bg-gray-50 backdrop-blur-md shadow-md border border-solid border-sidebar-border;
   }
 
-  html{
+  html {
     scroll-behavior: smooth;
   }
 
   @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateY(0);
     }
+
     50% {
       transform: translateY(-6px);
     }

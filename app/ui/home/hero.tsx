@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import heroImage from '@/app/assets/home/hero-image.png'
-import {GraduationCapIcon, HouseIcon, ZapIcon} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import { GraduationCapIcon, HouseIcon, ZapIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const features = [
@@ -48,7 +48,7 @@ const Hero = () => {
                 </div>
                 {/* Hero image */}
                 <div className='animate-float sm:min-w-1/2'>
-                    <video src='/video/video-hero.mp4' autoPlay={true} loop={true}
+                    <video src='/video/video-v3.mp4' autoPlay={true} loop={true}
                     >
                     </video>
                 </div>
@@ -57,4 +57,4 @@ const Hero = () => {
     )
 }
 
-export {Hero};
+export { Hero };
