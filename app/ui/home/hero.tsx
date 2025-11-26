@@ -36,7 +36,7 @@ const Hero = () => {
                 <div className='flex flex-col gap-6 items-center sm:items-start'>
                     <div className='flex flex-col gap-4'>
                         <h1>Nuda v Brně? Chcete zažít virtualní realitu na vlastní kůži?</h1>
-                        <p>Přivezeme <span className='font-semibold'>Meta Quest 3/s</span> až k Vám – domů. Zapojíme, zaškolíme a za 5 minut se bavíte.</p>
+                        <p>Přivezeme <span className='font-semibold'>Meta Quest 3/S</span> až k Vám domů. Zapojíme, zaškolíme a za 5 minut se bavíte.</p>
                     </div>
                     <div className='flex gap-4 items-center'>
                         {featuresElements}
