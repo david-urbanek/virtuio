@@ -1,3 +1,5 @@
+"use client"
+
 import Image from 'next/image';
 import heroImage from '@/app/assets/home/hero-image.png'
 import { GraduationCapIcon, HouseIcon, ZapIcon } from "lucide-react";
@@ -61,8 +63,10 @@ const Hero = () => {
                 </div>
                 {/* Hero video */}
                 <BlurFade delay={0.2} inView className='animate-float sm:min-w-1/2'>
-                    <video src='/video/hero-video.mp4' autoPlay={true} loop={true}
+                    <video autoPlay={true} loop={true} playsInline={true} muted={true}
                     >
+                        <source src='/video/hero-video.mp4' type='video/mp4' />
+                        Your browser does not support the video tag.
                     </video>
                 </BlurFade>
             </div>

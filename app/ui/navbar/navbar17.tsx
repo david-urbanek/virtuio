@@ -78,11 +78,10 @@ const Navbar17 = () => {
                                         asChild
                                         data-nav-item={item.name}
                                         onClick={() => setActiveItem(item.name)}
-                                        className={`relative cursor-pointer text-sm font-medium hover:bg-transparent ${
-                                            activeItem === item.name
+                                        className={`relative cursor-pointer text-sm font-medium hover:bg-transparent ${activeItem === item.name
                                                 ? "text-foreground"
                                                 : "text-muted-foreground"
-                                        }`}
+                                            }`}
                                     >
                                         <Link href={item.link}>
                                             {item.name}
@@ -127,14 +126,12 @@ const AnimatedHamburger = ({ isOpen }: { isOpen: boolean }) => {
         <div className="group relative size-full">
             <div className="absolute flex size-full items-center justify-center">
                 <Menu
-                    className={`text-muted-foreground group-hover:text-foreground absolute size-6 transition-all duration-300 ${
-                        isOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
-                    }`}
+                    className={`text-muted-foreground group-hover:text-foreground absolute size-6 transition-all duration-300 ${isOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
+                        }`}
                 />
                 <X
-                    className={`text-muted-foreground group-hover:text-foreground absolute size-6 transition-all duration-300 ${
-                        isOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
-                    }`}
+                    className={`text-muted-foreground group-hover:text-foreground absolute size-6 transition-all duration-300 ${isOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
+                        }`}
                 />
             </div>
         </div>
@@ -142,9 +139,9 @@ const AnimatedHamburger = ({ isOpen }: { isOpen: boolean }) => {
 };
 
 const MobileNav = ({
-                       activeItem,
-                       setActiveItem,
-                   }: {
+    activeItem,
+    setActiveItem,
+}: {
     activeItem: string;
     setActiveItem: (item: string) => void;
 }) => {
@@ -154,7 +151,7 @@ const MobileNav = ({
         <div className="block flex h-full items-center lg:hidden">
             <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" aria-label="Toggle Menu">
                         <AnimatedHamburger isOpen={isOpen} />
                     </Button>
                 </PopoverTrigger>
@@ -169,11 +166,10 @@ const MobileNav = ({
                                 <a
                                     href={navItem.link}
                                     onClick={() => setActiveItem(navItem.name)}
-                                    className={`text-foreground flex items-center border-l-[3px] px-6 py-4 text-sm font-medium transition-all duration-75 ${
-                                        activeItem === navItem.name
+                                    className={`text-foreground flex items-center border-l-[3px] px-6 py-4 text-sm font-medium transition-all duration-75 ${activeItem === navItem.name
                                             ? "border-foreground text-foreground"
                                             : "text-muted-foreground hover:text-foreground border-transparent"
-                                    }`}
+                                        }`}
                                 >
                                     {navItem.name}
                                 </a>

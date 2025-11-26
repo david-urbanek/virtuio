@@ -141,6 +141,7 @@ const Gallery6 = ({
                             }}
                             disabled={!canScrollPrev}
                             className="disabled:pointer-events-auto"
+                            aria-label="Previous slide"
                         >
                             <ArrowLeft className="size-5" />
                         </Button>
@@ -152,6 +153,7 @@ const Gallery6 = ({
                             }}
                             disabled={!canScrollNext}
                             className="disabled:pointer-events-auto"
+                            aria-label="Next slide"
                         >
                             <ArrowRight className="size-5" />
                         </Button>

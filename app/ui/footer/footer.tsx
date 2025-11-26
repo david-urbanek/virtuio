@@ -70,15 +70,15 @@ const Footer6 = () => {
                             <div className='flex gap-6 flex-col'>
                                 <div className='flex gap-2 items-center'><Mail width={20} height={20}></Mail>
                                     <a href="mailto:info@virtuio.cz?subject=Rezervace%20VR%20headsetu&body=Dobrý%20den,"
-                                        className="text-primary font-medium hover:underline">info.virtuio.cz</a>
+                                        className="text-foreground font-medium hover:underline">info.virtuio.cz</a>
                                 </div>
                                 <div className='flex gap-2 items-center'><Smartphone width={20}
                                     height={20}></Smartphone>
-                                    <a href='tel:+420606980435' className="text-primary font-medium hover:underline">+420
+                                    <a href='tel:+420606980435' className="text-foreground font-medium hover:underline">+420
                                         606 980
                                         435</a>
                                 </div>
-                                <p>IČ: <span className='text-primary font-medium'>23375281</span></p>
+                                <p>IČ: <span className='text-foreground font-medium'>23375281</span></p>
                             </div>
                         </div>
                     </div>
