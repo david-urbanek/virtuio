@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { BlurFade } from "@/components/ui/blur-fade";
 
 interface GalleryItem {
     id: string;
@@ -118,7 +119,7 @@ const Gallery6 = ({
     return (
         <section className="w-full py-12" id='games'>
             <div className="container">
-                <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
+                <BlurFade delay={0.1} inView className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
                     <div>
                         <h2 className="mb-3">
                             {heading}
@@ -155,9 +156,9 @@ const Gallery6 = ({
                             <ArrowRight className="size-5" />
                         </Button>
                     </div>
-                </div>
+                </BlurFade>
             </div>
-            <div className="w-full max-w-full">
+            <BlurFade delay={0.2} inView className="w-full max-w-full">
                 <Carousel
                     setApi={setCarouselApi}
                     opts={{
@@ -206,7 +207,7 @@ const Gallery6 = ({
                         ))}
                     </CarouselContent>
                 </Carousel>
-            </div>
+            </BlurFade>
         </section>
     );
 };

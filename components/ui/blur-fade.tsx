@@ -32,13 +32,13 @@ export function BlurFade({
   children,
   className,
   variant,
-  duration = 0.4,
+  duration = 0.8,
   delay = 0,
-  offset = 6,
+  offset = 12,
   direction = "down",
   inView = false,
   inViewMargin = "-50px",
-  blur = "6px",
+  blur = "8px",
   ...props
 }: BlurFadeProps) {
   const ref = useRef(null)
@@ -69,7 +69,7 @@ export function BlurFade({
         transition={{
           delay: 0.04 + delay,
           duration,
-          ease: "easeOut",
+          ease: [0.25, 0.4, 0.25, 1],
         }}
         className={className}
         {...props}
