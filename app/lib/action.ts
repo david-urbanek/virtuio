@@ -37,7 +37,7 @@ export async function handleFormSubmission(initialState: { message: string }, fo
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
         return {
-            message: 'Chyba serveru: Chybí API klíč pro odesílání emailů (RESEND_API_KEY).',
+            message: 'Jejda, něco se pokazilo. Zkuste se nás kontaktovat telefonicky nebo pomocí našeho emailu.',
             success: false,
             errors: {}
         }
@@ -81,7 +81,7 @@ export async function handleFormSubmission(initialState: { message: string }, fo
     if (leadError) {
         console.error("Lead email error:", leadError);
         return {
-            message: 'Nastala chyba při odesílání formuláře. Zkuste nás kontaktovat telefonicky nebo pomocí našeho emailu.',
+            message: 'Jejda, nastala chyba při odesílání formuláře. Zkuste nás kontaktovat telefonicky nebo pomocí našeho emailu.',
             success: false,
             errors: {}
         }
