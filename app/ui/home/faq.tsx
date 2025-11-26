@@ -1,5 +1,6 @@
 import React from "react";
 import FaqCard from "@/app/ui/home/faqCard";
+import MeteorCard from "./meteorCard";
 
 interface FaqItem {
     question: string;
@@ -13,58 +14,30 @@ interface Faq2Props {
 
 const Faq2 = ({
     heading = "Často kladené otázky?",
-    items = [
-        {
-            question: "Jaká je cena pronájmu?",
-            answer:
-                "Cena je 1300Kč/den za jeden VR headset.",
-        },
-        {
-            question: "What is the purpose of a FAQ?",
-            answer:
-                "The purpose of a FAQ is to provide answers to common questions and help users find the information they need quickly and easily.",
-        },
-        {
-            question: "How do I create a FAQ?",
-            answer:
-                "To create a FAQ, you need to compile a list of common questions and answers on a particular topic and organize them in a clear and easy-to-navigate format.",
-        },
-    ],
 }: Faq2Props) => {
     return (
-        <section id='faq'>
-            <div className="container max-w-3xl">
-                <h2 className="mb-4">
+        <section id='faq' className="py-12">
+            <div className="container max-w-6xl mx-auto px-4">
+                <h2 className="mb-12 text-center">
                     {heading}
                 </h2>
-                <div className="space-y-8">
-                    <div className="border-b pb-6">
-                        <h3 className="mb-2 font-semibold">Jaká je cena pronájmu?</h3>
-                        <p className="text-muted-foreground">Cena je <span className='font-semibold text-black'>1300Kč/den</span> za jeden VR headset.</p>
-                    </div>
-                    <div className="border-b pb-6">
-                        <h3 className="mb-2 font-semibold">Vysvětlíte mi jak VR ovládat?</h3>
-                        <p className="text-muted-foreground">Ano, zcela <span className='font-semibold text-black'>zdarma</span> Vám ukážeme jak s VR zacházet.</p>
-                    </div>
-                    <div className="border-b pb-6">
-                        <h3 className="mb-2 font-semibold">Jak se ke mně VR dostane?</h3>
-                        <p className="text-muted-foreground">Váš pronajatý VR headset Vám osobně doručíme kamkoliv
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FaqCard
+                        title="Jaká je cena pronájmu?"
+                        description={<>Cena je <span className='font-semibold text-black'>1300Kč/den</span> za jeden VR headset.</>}
+                    />
+                    <FaqCard
+                        title="Vysvětlíte mi jak VR ovládat?"
+                        description={<>Ano, zcela <span className='font-semibold text-black'>zdarma</span> Vám ukážeme jak s VR zacházet.</>}
+                    />
+                    <FaqCard
+                        title="Jak se ke mně VR dostane?"
+                        description={<>Váš pronajatý VR headset Vám osobně doručíme kamkoliv
                             po <span className='font-semibold text-black'>Brně</span> – dopravu už máte v ceně. Headset přivezeme den předem odpoledne a po skončení
-                            pronájmu si ho zase pohodlně vyzvedneme večer.
-                        </p>
-                    </div>
-                    <div className="border-b pb-6">
-                        <h3 className="mb-2 font-semibold">Jak probíha proces rezervace?</h3>
-                        <p className="text-muted-foreground">Po odeslání <span className="font-semibold text-black">nezávazné rezervace</span> Vám do 24&nbsp;hodin zašleme fakturu s částkou za
-                            pronájem. Po jejím uhrazení Vám
-                            <span className="font-semibold text-black"> VR headset zarezervujeme</span> na Vámi zvolený termín.
-                        </p>
-                    </div>
+                            pronájmu si ho zase pohodlně vyzvedneme večer.</>}
+                    />
+                    <MeteorCard />
                 </div>
-                <FaqCard title="Jaká je cena pronájmu?" description="Cena je 1300Kč/den za jeden VR headset." />
-                <FaqCard title="Jaká je cena pronájmu?" description="Cena je 1300Kč/den za jeden VR headset." />
-                <FaqCard title="Jaká je cena pronájmu?" description="Cena je 1300Kč/den za jeden VR headset." />
-                <h1>FAQ</h1>
             </div>
         </section>
     );

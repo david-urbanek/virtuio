@@ -30,7 +30,7 @@ export const CanvasRevealEffect = ({
           colors={colors ?? [[0, 255, 255]]}
           dotSize={dotSize ?? 3}
           opacities={
-            opacities ?? [0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.8, 0.8, 0.8, 1]
+            opacities ?? [0.8, 0.8, 0.9, 0.9, 1, 1, 1, 1, 1, 1]
           }
           shader={`
               float animation_speed_factor = ${animationSpeed.toFixed(1)};
@@ -59,7 +59,7 @@ interface DotMatrixProps {
 
 const DotMatrix: React.FC<DotMatrixProps> = ({
   colors = [[0, 0, 0]],
-  opacities = [0.04, 0.04, 0.04, 0.04, 0.04, 0.08, 0.08, 0.08, 0.08, 0.14],
+  opacities = [0.8, 0.8, 0.9, 0.9, 1, 1, 1, 1, 1, 1],
   totalSize = 4,
   dotSize = 2,
   shader = "",
@@ -140,16 +140,14 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
         }
         void main() {
             vec2 st = fragCoord.xy;
-            ${
-              center.includes("x")
-                ? "st.x -= abs(floor((mod(u_resolution.x, u_total_size) - u_dot_size) * 0.5));"
-                : ""
-            }
-            ${
-              center.includes("y")
-                ? "st.y -= abs(floor((mod(u_resolution.y, u_total_size) - u_dot_size) * 0.5));"
-                : ""
-            }
+            ${center.includes("x")
+          ? "st.x -= abs(floor((mod(u_resolution.x, u_total_size) - u_dot_size) * 0.5));"
+          : ""
+        }
+            ${center.includes("y")
+          ? "st.y -= abs(floor((mod(u_resolution.y, u_total_size) - u_dot_size) * 0.5));"
+          : ""
+        }
       float opacity = step(0.0, st.x);
       opacity *= step(0.0, st.y);
 

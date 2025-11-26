@@ -12,11 +12,12 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import React, { useEffect, useActionState, useState } from "react";
-import { ListCheck, CheckCircle, AlertCircle } from "lucide-react";
+import { ListCheck, CheckCircle, AlertCircle, Link } from "lucide-react";
 import { handleFormSubmission } from "@/app/lib/action";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { createPortal } from "react-dom";
 import Form from "next/form";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 const initialValues = {
     name: "",
@@ -249,9 +250,13 @@ export function ContactForm() {
                         </Field>
                         <FieldSeparator></FieldSeparator>
                         <Field>
-                            <Button type='submit' disabled={isPending}>
+                            <HoverBorderGradient
+                                duration={1}
+                                clockwise={true}
+                                as="button"
+                            >
                                 {isPending ? 'Odesílám...' : 'Poslat rezervaci'}
-                            </Button>
+                            </HoverBorderGradient>
                         </Field>
                     </FieldGroup>
                 </FieldSet>

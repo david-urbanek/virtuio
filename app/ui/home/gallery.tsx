@@ -19,7 +19,7 @@ import {
     CarouselItem,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 interface GalleryItem {
     id: string;
@@ -37,67 +37,67 @@ interface Gallery6Props {
 
 
 const Gallery6 = ({
-                      heading = "U nás si vyzkoušíte to nejlepší z VR",
-                      demoUrl = "https://www.shadcnblocks.com",
-                      items = [
-                          {
-                              id: "item-1",
-                              title: "Beat Saber",
-                              summary:
-                                  "Rytmická hra, kde sekáš kostky do rytmu hudby. Skvělá zábava a perfektní trénink reflexů.",
-                              url: "#",
-                              image: beatSaberImage,
-                          },
-                          {
-                              id: "item-2",
-                              title: "Superhot VR",
-                              summary:
-                                  "Čas se hýbe, jen když se hýbeš ty. Strategická akce, která tě vtáhne naplno.",
-                              url: "#",
-                              image: superHotImage,
-                          },
-                          {
-                              id: "item-3",
-                              title: "Brink Traveler",
-                              summary:
-                                  "Procestuj svět z pohodlí domova. Realistické 3D lokace a dechberoucí výhledy.",
-                              url: "#",
-                              image: brinkTravelerImage,
-                          },
-                          {
-                              id: "item-4",
-                              title: "Eleven Table Tennis",
-                              summary:
-                                  "Nejrealističtější stolní tenis ve VR. Skvělý pro soutěžení i zlepšování reflexů.",
-                              url: "#",
-                              image: elevenTableTennisImage,
-                          },
-                          {
-                              id: "item-5",
-                              title: "AIM XR",
-                              summary:
-                                  "Multiplayerová akční střílečka, kde rozhoduje přesnost, týmová spolupráce a rychlé reakce.",
-                              url: "#",
-                              image: aimXRImage,
-                          },
-                          {
-                              id: "item-6",
-                              title: "First Hand",
-                              summary:
-                                  "Ideální hra pro začátečníky ve VR. Vyzkoušej si virtuální svět s humorem a stylem.",
-                              url: "#",
-                              image: firstHandImage,
-                          },
-                          {
-                              id: "item-7",
-                              title: "Epic Roller Coasters",
-                              summary:
-                                  "Zažij jízdu na horské dráze, kterou bys v reálu nezvládl. Adrenalin zaručen!",
-                              url: "#",
-                              image: epicRollerCoastersImage,
-                          },
-                      ],
-                  }: Gallery6Props) => {
+    heading = "U nás si vyzkoušíte to nejlepší z VR",
+    demoUrl = "https://www.shadcnblocks.com",
+    items = [
+        {
+            id: "item-1",
+            title: "Beat Saber",
+            summary:
+                "Rytmická hra, kde sekáš kostky do rytmu hudby. Skvělá zábava a perfektní trénink reflexů.",
+            url: "#",
+            image: beatSaberImage,
+        },
+        {
+            id: "item-2",
+            title: "Superhot VR",
+            summary:
+                "Čas se hýbe, jen když se hýbeš ty. Strategická akce, která tě vtáhne naplno.",
+            url: "#",
+            image: superHotImage,
+        },
+        {
+            id: "item-3",
+            title: "Brink Traveler",
+            summary:
+                "Procestuj svět z pohodlí domova. Realistické 3D lokace a dechberoucí výhledy.",
+            url: "#",
+            image: brinkTravelerImage,
+        },
+        {
+            id: "item-4",
+            title: "Eleven Table Tennis",
+            summary:
+                "Nejrealističtější stolní tenis ve VR. Skvělý pro soutěžení i zlepšování reflexů.",
+            url: "#",
+            image: elevenTableTennisImage,
+        },
+        {
+            id: "item-5",
+            title: "AIM XR",
+            summary:
+                "Multiplayerová akční střílečka, kde rozhoduje přesnost, týmová spolupráce a rychlé reakce.",
+            url: "#",
+            image: aimXRImage,
+        },
+        {
+            id: "item-6",
+            title: "First Hand",
+            summary:
+                "Ideální hra pro začátečníky ve VR. Vyzkoušej si virtuální svět s humorem a stylem.",
+            url: "#",
+            image: firstHandImage,
+        },
+        {
+            id: "item-7",
+            title: "Epic Roller Coasters",
+            summary:
+                "Zažij jízdu na horské dráze, kterou bys v reálu nezvládl. Adrenalin zaručen!",
+            url: "#",
+            image: epicRollerCoastersImage,
+        },
+    ],
+}: Gallery6Props) => {
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [canScrollPrev, setCanScrollPrev] = useState(false);
     const [canScrollNext, setCanScrollNext] = useState(false);
@@ -116,7 +116,7 @@ const Gallery6 = ({
         };
     }, [carouselApi]);
     return (
-        <section className="w-full" id='games'>
+        <section className="w-full py-12" id='games'>
             <div className="container">
                 <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
                     <div>

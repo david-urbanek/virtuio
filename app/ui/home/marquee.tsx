@@ -1,5 +1,5 @@
-import {cn} from "@/lib/utils"
-import {Marquee} from "@/components/ui/marquee"
+import { cn } from "@/lib/utils"
+import { Marquee } from "@/components/ui/marquee"
 
 const reviews = [
     {
@@ -38,11 +38,11 @@ const firstRow = reviews.slice(0, reviews.length / 2)
 const secondRow = reviews.slice(reviews.length / 2)
 
 const ReviewCard = ({
-                        img,
-                        name,
-                        username,
-                        body,
-                    }: {
+    img,
+    name,
+    username,
+    body,
+}: {
     img: string
     name: string
     username: string
@@ -60,7 +60,7 @@ const ReviewCard = ({
             id='reference'
         >
             <div className="flex flex-row items-center gap-2">
-                <img className="rounded-full" width="32" height="32" alt="" src={img}/>
+                <img className="rounded-full" width="32" height="32" alt="" src={img} />
                 <div className="flex flex-col">
                     <figcaption className="text-sm font-medium dark:text-white">
                         {name}
@@ -75,7 +75,7 @@ const ReviewCard = ({
 
 export function MarqueeDemo() {
     return (
-        <section className="relative w-full flex flex-col gap-8">
+        <section className="relative w-full flex flex-col gap-8 py-12">
             <div className="flex flex-col gap-2">
                 <h2>
                     Co říkají na VR naši zákazníci

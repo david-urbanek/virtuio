@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export const CardSpotlight = ({
   children,
   radius = 350,
-  color = "#262626",
+  color = "blue",
   className,
   ...props
 }: {
@@ -34,10 +34,12 @@ export const CardSpotlight = ({
   const handleMouseLeave = () => setIsHovering(false);
   return (
     <div
-      className={cn(
-        "group/spotlight p-10 rounded-md relative border border-neutral-800 bg-black dark:border-neutral-800",
-        className
-      )}
+      className={
+        cn(
+          "group/spotlight p-10 rounded-md relative border border-neutral-800 bg-white dark:border-neutral-800",
+          className
+        )
+      }
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -54,6 +56,7 @@ export const CardSpotlight = ({
               transparent 80%
             )
           `,
+
         }}
       >
         {isHovering && (
@@ -61,14 +64,15 @@ export const CardSpotlight = ({
             animationSpeed={5}
             containerClassName="bg-transparent absolute inset-0 pointer-events-none"
             colors={[
-              [59, 130, 246],
-              [139, 92, 246],
+              [0, 150, 255],
+              [170, 0, 255],
             ]}
             dotSize={3}
+            showGradient={false}
           />
         )}
       </motion.div>
       {children}
-    </div>
+    </div >
   );
 };
