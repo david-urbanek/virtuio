@@ -77,7 +77,7 @@ export function ContactForm() {
   }, [state.success]);
 
   function handleChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
     const { name, value } = event.target;
 
@@ -109,7 +109,7 @@ export function ContactForm() {
               </div>
             </Alert>
           </div>,
-          document.body
+          document.body,
         )}
 
       <Form action={formAction} noValidate>

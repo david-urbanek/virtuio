@@ -36,7 +36,7 @@ export type FormState = {
 
 export async function handleFormSubmission(
   initialState: { message: string },
-  formData: FormData
+  formData: FormData,
 ): Promise<FormState> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -61,11 +61,14 @@ export async function handleFormSubmission(
   });
 
   if (!validatedData.success) {
-    const errors = validatedData.error.issues.reduce((acc, error) => {
-      const fieldName = error.path[0] as string;
-      acc[fieldName] = error.message;
-      return acc;
-    }, {} as Record<string, string>);
+    const errors = validatedData.error.issues.reduce(
+      (acc, error) => {
+        const fieldName = error.path[0] as string;
+        acc[fieldName] = error.message;
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
 
     return {
       message:

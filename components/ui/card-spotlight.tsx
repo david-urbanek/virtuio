@@ -34,12 +34,10 @@ export const CardSpotlight = ({
   const handleMouseLeave = () => setIsHovering(false);
   return (
     <div
-      className={
-        cn(
-          "group/spotlight p-10 rounded-md relative border border-neutral-800 bg-white dark:border-neutral-800",
-          className
-        )
-      }
+      className={cn(
+        "group/spotlight p-10 rounded-md relative border border-neutral-800 bg-white dark:border-neutral-800",
+        className,
+      )}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -56,7 +54,6 @@ export const CardSpotlight = ({
               transparent 80%
             )
           `,
-
         }}
       >
         {isHovering && (
@@ -73,6 +70,6 @@ export const CardSpotlight = ({
         )}
       </motion.div>
       {children}
-    </div >
+    </div>
   );
 };
