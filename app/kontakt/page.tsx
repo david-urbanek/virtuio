@@ -1,7 +1,5 @@
-import Contact from "@/app/ui/contact/contact";
+import Contact from "@/components/contact/contact";
 
 export default function Page() {
-    return (
-        <Contact />
-    )
+  return <Contact />;
 }
