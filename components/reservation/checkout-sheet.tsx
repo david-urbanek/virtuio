@@ -48,7 +48,7 @@ export function CheckoutSheet({
           size="lg"
           disabled={disabled}
         >
-          Confirm Reservation
+          Finalize Reservation
         </Button>
       </SheetTrigger>
       <SheetContent className="overflow-y-auto sm:max-w-lg p-8">
@@ -65,10 +65,18 @@ export function CheckoutSheet({
             <h3 className="font-semibold text-sm text-foreground">
               Contact Information
             </h3>
-            <div className="grid gap-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input id="name" placeholder="John Doe" />
+            {/* Name */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="firstName">First Name</Label>
+                <Input id="firstName" placeholder="John" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input id="lastName" placeholder="Doe" />
+              </div>
             </div>
+
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" placeholder="john@example.com" />
@@ -77,9 +85,33 @@ export function CheckoutSheet({
               <Label htmlFor="phone">Phone</Label>
               <Input id="phone" type="tel" placeholder="+1 234 567 890" />
             </div>
+
+            {/* Address */}
+            <h3 className="font-semibold text-sm text-foreground mt-2">
+              Delivery Address
+            </h3>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="grid gap-2 col-span-2">
+                <Label htmlFor="street">Street</Label>
+                <Input id="street" placeholder="Main St" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="houseNumber">No.</Label>
+                <Input id="houseNumber" placeholder="123" />
+              </div>
+            </div>
             <div className="grid gap-2">
-              <Label htmlFor="address">Delivery Address</Label>
-              <Input id="address" placeholder="123 VR Street, Reality City" />
+              <Label htmlFor="city">City</Label>
+              <select
+                id="city"
+                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                disabled
+              >
+                <option value="Brno">Brno</option>
+              </select>
+              <p className="text-[10px] text-muted-foreground">
+                Currently we only deliver to Brno.
+              </p>
             </div>
           </div>
 
