@@ -1,62 +1,104 @@
 "use server";
 
+import { Database } from "@/database.types";
 import { createClient } from "@/lib/supabase/server";
+import { z } from "zod";
+
+const orderSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(6, "Phone number is required"),
+  street: z.string().min(1, "Street is required"),
+  houseNumber: z.string().min(1, "House number is required"),
+  city: z.string().default("Brno"),
+  // Změna: Očekáváme pole čísel (posíláme rovnou IDčka)
+  headsetIds: z
+    .array(z.number())
+    .min(1, "At least one headset must be selected"),
+  // Transformace Date -> ISO String přímo v Zodu
+  fromDate: z.coerce.date().transform((d) => d.toISOString()),
+  toDate: z.coerce.date().transform((d) => d.toISOString()),
+});
 
 export type ActionState = {
   success?: boolean;
   message?: string;
-  orderId?: any;
+  errors?: {
+    [key: string]: string[];
+  };
+  fields?: Record<string, string>;
+  orderId?: number;
 };
 
 export async function createOrderAction(
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = await createClient<Database>();
 
-  const rawData = {
-    name: formData.get("firstName") as string,
-    surname: formData.get("lastName") as string,
+  // Extract raw form data for persistence (fields)
+  const fields: Record<string, string> = {
+    firstName: formData.get("firstName") as string,
+    lastName: formData.get("lastName") as string,
     email: formData.get("email") as string,
     phone: formData.get("phone") as string,
     street: formData.get("street") as string,
     houseNumber: formData.get("houseNumber") as string,
-    city: "Brno",
-    headsetIds: JSON.parse((formData.get("headsetIds") as string) || "[]"),
-    from: formData.get("fromDate") as string,
-    to: formData.get("toDate") as string,
+    city: (formData.get("city") as string) || "Brno",
   };
 
-  // Basic validation check
-  if (
-    !rawData.name ||
-    !rawData.surname ||
-    !rawData.email ||
-    !rawData.phone ||
-    !rawData.street ||
-    !rawData.houseNumber
-  ) {
-    return { success: false, message: "Please fill in all required fields." };
+  // 1. Příprava dat (všechno z formData na jeden zátah)
+  const rawData = {
+    firstName: formData.get("firstName"),
+    lastName: formData.get("lastName"),
+    email: formData.get("email"),
+    phone: formData.get("phone"),
+    street: formData.get("street"),
+    houseNumber: formData.get("houseNumber"),
+    city: formData.get("city") || "Brno", // Handle potential null if empty (though default covers validation)
+    // Tady zajistíme, že z JSONu vylezou čísla
+    headsetIds: JSON.parse((formData.get("headsetIds") as string) || "[]").map(
+      Number
+    ),
+    fromDate: formData.get("fromDate"),
+    toDate: formData.get("toDate"),
+  };
+
+  // 2. Validace a Transformace
+  const validated = orderSchema.safeParse(rawData);
+
+  if (!validated.success) {
+    return {
+      success: false,
+      errors: validated.error.flatten().fieldErrors,
+      message: "Please fix the form errors.",
+      fields,
+    };
   }
 
-  // Call RPC
-  const { data, error } = await supabase.rpc("create_order_with_reservations", {
-    p_name: rawData.name,
-    p_surname: rawData.surname,
-    p_email: rawData.email,
-    p_phone: rawData.phone,
-    p_street: rawData.street,
-    p_house_number: rawData.houseNumber,
-    p_city: rawData.city,
-    p_headset_ids: rawData.headsetIds,
-    p_start_time: rawData.from,
-    p_end_time: rawData.to,
-  });
+  const { data } = validated;
+
+  // 3. Volání RPC - Teď je to extrémně čisté
+  const { data: orderId, error } = await supabase.rpc(
+    "create_order_with_reservations",
+    {
+      p_name: data.firstName,
+      p_surname: data.lastName,
+      p_email: data.email,
+      p_phone: data.phone,
+      p_street: data.street,
+      p_house_number: data.houseNumber,
+      p_city: data.city,
+      p_headset_ids: data.headsetIds,
+      p_start_time: data.fromDate,
+      p_end_time: data.toDate,
+    }
+  );
 
   if (error) {
-    // Return error message from DB (e.g. "Headset ID X is occupied")
-    return { success: false, message: error.message };
+    return { success: false, message: error.message, fields };
   }
 
-  return { success: true, orderId: data };
+  return { success: true, orderId: orderId };
 }
