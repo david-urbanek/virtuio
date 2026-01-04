@@ -25,53 +25,57 @@ export function HeadsetSelector({
         type="multiple"
         value={selectedIds}
         onValueChange={onSelect}
-        className="flex flex-wrap gap-4 justify-start"
+        className="flex flex-col gap-4 w-full"
       >
         <ToggleGroupItem
           value="meta-quest-3"
           className={cn(
-            "h-auto flex-col items-start p-6 gap-2 rounded-xl border-2 border-transparent bg-muted/50 data-[state=on]:border-primary data-[state=on]:bg-primary/10 transition-all hover:bg-muted text-left w-full sm:w-[calc(50%-8px)] lg:w-full min-w-[200px]",
+            "h-auto flex-col items-start p-4 gap-2 rounded-xl border-2 border-transparent bg-muted/50 data-[state=on]:border-primary data-[state=on]:bg-primary/10 transition-all hover:bg-muted text-left w-full",
             selectedIds.includes("meta-quest-3") &&
               "border-primary bg-primary/10"
           )}
         >
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-background mb-2">
-            <Monitor className="w-5 h-5 text-foreground" />
-          </div>
-          <div>
-            <div className="font-semibold text-lg text-foreground">
-              Meta Quest 3
+          <div className="flex items-center gap-3 w-full">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-background shrink-0">
+              <Monitor className="w-5 h-5 text-foreground" />
             </div>
-            <div className="text-sm text-muted-foreground">
-              The ultimate experience
+            <div className="flex-1 min-w-0">
+              <div className="font-semibold text-foreground truncate">
+                Meta Quest 3
+              </div>
+              <div className="text-xs text-muted-foreground truncate">
+                The ultimate experience
+              </div>
             </div>
-          </div>
-          <div className="mt-2 font-mono text-sm font-bold text-primary">
-            $50/day
+            <div className="font-mono text-sm font-bold text-primary shrink-0">
+              $50/day
+            </div>
           </div>
         </ToggleGroupItem>
 
         <ToggleGroupItem
           value="meta-quest-3s"
           className={cn(
-            "h-auto flex-col items-start p-6 gap-2 rounded-xl border-2 border-transparent bg-muted/50 data-[state=on]:border-primary data-[state=on]:bg-primary/10 transition-all hover:bg-muted text-left w-full sm:w-[calc(50%-8px)] lg:w-full min-w-[200px]",
+            "h-auto flex-col items-start p-4 gap-2 rounded-xl border-2 border-transparent bg-muted/50 data-[state=on]:border-primary data-[state=on]:bg-primary/10 transition-all hover:bg-muted text-left w-full",
             selectedIds.includes("meta-quest-3s") &&
               "border-primary bg-primary/10"
           )}
         >
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-background mb-2">
-            <Smartphone className="w-5 h-5 text-foreground" />
-          </div>
-          <div>
-            <div className="font-semibold text-lg text-foreground">
-              Meta Quest 3S
+          <div className="flex items-center gap-3 w-full">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-background shrink-0">
+              <Smartphone className="w-5 h-5 text-foreground" />
             </div>
-            <div className="text-sm text-muted-foreground">
-              Lightweight & powerful
+            <div className="flex-1 min-w-0">
+              <div className="font-semibold text-foreground truncate">
+                Meta Quest 3S
+              </div>
+              <div className="text-xs text-muted-foreground truncate">
+                Lightweight & powerful
+              </div>
             </div>
-          </div>
-          <div className="mt-2 font-mono text-sm font-bold text-primary">
-            $40/day
+            <div className="font-mono text-sm font-bold text-primary shrink-0">
+              $40/day
+            </div>
           </div>
         </ToggleGroupItem>
       </ToggleGroup>

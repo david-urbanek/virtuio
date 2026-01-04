@@ -1,7 +1,6 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,9 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { differenceInDays, format } from "date-fns";
+import { differenceInDays, format, subDays } from "date-fns";
+import { Info } from "lucide-react";
 import { DateRange } from "react-day-picker";
+import { CheckoutSheet } from "./checkout-sheet";
 
 interface OrderSummaryProps {
   selectedHeadset: string | undefined;
@@ -35,18 +35,22 @@ export function OrderSummary({
   selectedHeadsets: string[];
   date: DateRange | undefined;
 }) {
-  const isComplete = selectedHeadsets.length > 0 && date?.from && date?.to;
+  const isComplete = selectedHeadsets.length > 0 && !!date?.from;
 
-  const days =
-    date?.from && date?.to
-      ? differenceInDays(date.to, date.from) + 1 // Inclusive
-      : 0;
+  const days = date?.from
+    ? date.to
+      ? differenceInDays(date.to, date.from) + 1
+      : 1
+    : 0;
 
   const totalPricePerDay = selectedHeadsets.reduce(
     (sum, id) => sum + (HEADSET_PRICES[id] || 0),
     0
   );
   const total = days * totalPricePerDay;
+
+  const deliveryDate = date?.from ? subDays(date.from, 1) : null;
+  const pickupDate = date?.to || date?.from;
 
   return (
     <div className="flex flex-col gap-4 h-full">
@@ -77,8 +81,6 @@ export function OrderSummary({
             )}
           </div>
 
-          <Separator />
-
           {/* Date Section */}
           <div className="space-y-2">
             <span className="text-sm font-medium text-muted-foreground">
@@ -94,7 +96,11 @@ export function OrderSummary({
               <div className="flex justify-between">
                 <span>To:</span>
                 <span className="font-medium">
-                  {date?.to ? format(date.to, "PPP") : "-"}
+                  {date?.to
+                    ? format(date.to, "PPP")
+                    : date?.from
+                    ? format(date.from, "PPP")
+                    : "-"}
                 </span>
               </div>
               <div className="flex justify-between text-sm text-muted-foreground mt-1">
@@ -104,7 +110,33 @@ export function OrderSummary({
             </div>
           </div>
 
-          <Separator />
+          {/* Delivery Note */}
+          {deliveryDate && pickupDate && (
+            <div className="bg-muted/50 p-3 rounded-lg text-sm flex gap-3 text-muted-foreground">
+              <Info className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
+              <div className="space-y-1">
+                <p>
+                  <span className="font-medium text-foreground">Delivery:</span>{" "}
+                  We will bring the VR on{" "}
+                  <span className="font-medium text-foreground">
+                    {format(deliveryDate, "PPP")} at 18:00
+                  </span>
+                  .
+                </p>
+                <p>
+                  <span className="font-medium text-foreground">Pickup:</span>{" "}
+                  We will collect it on{" "}
+                  <span className="font-medium text-foreground">
+                    {format(pickupDate, "PPP")} at 18:00
+                  </span>
+                  .
+                </p>
+                <p className="text-xs pt-1 opacity-80">
+                  *Delivered a day early so you get full 24 hours.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Total Section */}
           <div className="flex justify-between items-end pt-2">
@@ -113,13 +145,17 @@ export function OrderSummary({
           </div>
         </CardContent>
         <CardFooter>
-          <Button
-            className="w-full text-lg py-6 shadow-md hover:shadow-xl transition-all"
-            size="lg"
+          <CheckoutSheet
+            selectedHeadsets={selectedHeadsets}
+            date={date}
+            totalPrice={total}
+            headsetNames={HEADSET_NAMES}
+            headsetPrices={HEADSET_PRICES}
+            days={days}
+            deliveryDate={deliveryDate}
+            pickupDate={pickupDate}
             disabled={!isComplete}
-          >
-            Confirm Reservation
-          </Button>
+          />
         </CardFooter>
       </Card>
     </div>

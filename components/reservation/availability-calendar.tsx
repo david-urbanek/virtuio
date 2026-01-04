@@ -49,22 +49,35 @@ export function AvailabilityCalendar({
       }
 
       if (hasDisabled) {
-        // If range includes disabled dates, only allow the start date or reset depending on UX preference.
-        // Here we'll just set the 'from' date (if it's not disabled) or nothing.
-        // Actually simpler: if the start date isn't disabled, just keep the start date.
-        // Or if the user clicked a 'to' date that makes a range crossing disabled, we can reject the 'to' part.
-
-        // Scenario: User clicked From (valid) then To (valid), but there's a disabled date in middle.
-        // logic: reject the selection and keep only the 'from' part if it was valid, or just the new clicked date?
-        // react-day-picker passes the *new* range.
-
-        // Let's try to just keep the 'from' date if the 'to' date creates an invalid range.
+        // If range includes disabled dates, reject the range.
+        // If the user tried to select a range over a disabled date, we reset the selection.
+        // We set the "newly clicked" end date as the new start date to allow "re-starting" the selection elsewhere.
         if (!isDateDisabled(range.from)) {
-          setDate({ from: range.to, to: undefined }); // Reset to the newly clicked date as start
+          // If the start date was valid but the range is invalid, we assume the user clicked a 'To' date that spans over disabled.
+          // We reset 'From' to be that new 'To' date (if valid) to let them start a new range there,
+          // OR we just keep the original 'From' and ignore the 'To'.
+          // User UX preference: usually if I click "From A" then "To B" and it's invalid, it might be better to just select "B" as new "From".
+          // But here let's stick to the previous safe logic which was essentially resetting.
+
+          // However, for the specific request: "click twice on same day => select one day".
+          // If ranges are same, verify it's not disabled (already done by loop).
+          // If valid single day, it falls through to setDate(range) below.
+
+          setDate({ from: range.to, to: undefined });
         }
         return;
       }
+    } else if (range?.from && !range?.to) {
+      // Single date selected (first click or explicit single).
+      // If the user clicked the *same* date again that was already 'from', react-day-picker might send { from: undefined } or { from: date, to: date }.
+      // If it sends { from: date, to: date }, it goes into the block above.
+      // If it sends undefined (toggle off behavior), we might want to prevent unselecting if we want to enforce selection?
+      // But usually unselecting is fine.
     }
+
+    // Explicitly handle the 'same day' selection if passed as { from: X, to: X }
+    // The loop above handles it correctly ( runs once for X, checks if disabled).
+    // If valid, it falls here.
 
     setDate(range);
   };

@@ -12,15 +12,15 @@ export function ReservationFlow() {
   const [date, setDate] = React.useState<DateRange | undefined>();
 
   return (
-    <div className="container mx-auto py-10 px-4 max-w-[1600px]">
-      <div className="flex flex-col xl:grid xl:grid-cols-12 gap-8 xl:gap-12">
+    <div className="container mx-auto py-10 px-4 max-w-[1400px]">
+      <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 items-start">
         {/* Left Part: Headset Selector (Always visible) */}
-        <div className="xl:col-span-3 space-y-8">
+        <div className="lg:col-span-3 space-y-8 w-full">
           <HeadsetSelector selectedIds={headsets} onSelect={setHeadsets} />
         </div>
 
         {/* Middle Part: Calendar (Visible only after headset selection) */}
-        <div className="xl:col-span-6 space-y-8 flex justify-center xl:block">
+        <div className="lg:col-span-5 space-y-8 flex justify-center lg:block w-full">
           {headsets.length > 0 && (
             <BlurFade
               delay={0.25}
@@ -37,9 +37,9 @@ export function ReservationFlow() {
         </div>
 
         {/* Right Part: Summary (Visible after headset selection, stays updated) */}
-        <div className="xl:col-span-3 space-y-8">
+        <div className="lg:col-span-4 space-y-8 w-full">
           {headsets.length > 0 && (
-            <BlurFade delay={0.4} inView className="h-full">
+            <BlurFade delay={0.4} inView className="w-full">
               <OrderSummary selectedHeadsets={headsets} date={date} />
             </BlurFade>
           )}
