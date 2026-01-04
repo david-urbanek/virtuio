@@ -51,7 +51,7 @@ export function CheckoutSheet({
           Confirm Reservation
         </Button>
       </SheetTrigger>
-      <SheetContent className="overflow-y-auto sm:max-w-md">
+      <SheetContent className="overflow-y-auto sm:max-w-lg p-8">
         <SheetHeader>
           <SheetTitle>Complete Your Reservation</SheetTitle>
           <SheetDescription>
