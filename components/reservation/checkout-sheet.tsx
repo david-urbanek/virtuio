@@ -90,16 +90,6 @@ export function CheckoutSheet({
             <h3 className="font-semibold text-sm text-foreground mt-2">
               Delivery Address
             </h3>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="grid gap-2 col-span-2">
-                <Label htmlFor="street">Street</Label>
-                <Input id="street" placeholder="Main St" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="houseNumber">No.</Label>
-                <Input id="houseNumber" placeholder="123" />
-              </div>
-            </div>
             <div className="grid gap-2">
               <Label htmlFor="city">City</Label>
               <select
@@ -112,6 +102,16 @@ export function CheckoutSheet({
               <p className="text-[10px] text-muted-foreground">
                 Currently we only deliver to Brno.
               </p>
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="grid gap-2 col-span-2">
+                <Label htmlFor="street">Street</Label>
+                <Input id="street" placeholder="Main St" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="houseNumber">No.</Label>
+                <Input id="houseNumber" placeholder="123" />
+              </div>
             </div>
           </div>
 
