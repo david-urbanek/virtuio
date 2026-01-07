@@ -53,7 +53,7 @@ export function CheckoutSheet(props: CheckoutSheetProps) {
           onSuccess={() => {
             setTimeout(() => {
               setOpen(false);
-            }, 2000);
+            }, 5000);
           }}
         />
       </SheetContent>

@@ -343,6 +343,7 @@ export function ReservationForm({
               const formData = new FormData();
               formData.append("firstName", "Jan");
               formData.append("lastName", "Testovač");
+              formData.append("email", "jan.testovac@example.com");
               formData.append("phone", "+420777888999");
               formData.append("street", "Testovací Ulice");
               formData.append("houseNumber", "123/A");
