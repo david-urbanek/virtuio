@@ -1,6 +1,5 @@
 "use server";
 
-import { Database } from "@/database.types";
 import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
 
@@ -35,7 +34,7 @@ export async function createOrderAction(
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
-  const supabase = await createClient<Database>();
+  const supabase = await createClient();
 
   // Extract raw form data for persistence (fields)
   const fields: Record<string, string> = {

@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       },
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
       // The URL of your payment completion page
-      return_url: "http://localhost:3000/",
+      return_url: "http://localhost:3000/checkout/success",
     });
 
     console.log(session);

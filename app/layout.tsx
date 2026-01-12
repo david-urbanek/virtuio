@@ -1,5 +1,6 @@
 import { Footer6 } from "@/components/footer";
 import { Navbar17 } from "@/components/navbar17";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { inter } from "./fonts";
 import "./globals.css";
@@ -30,6 +31,7 @@ export default function RootLayout({
         <footer className="container w-full mt-16">
           <Footer6></Footer6>
         </footer>
+        <Toaster position="top-right" />
       </body>
     </html>
   );
