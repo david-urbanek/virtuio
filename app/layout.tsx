@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="cs">
       <body
-        className={`${inter.className} ${inter.variable} antialiased min-w-screen flex flex-col items-center justify-center px-8 md:px-16 lg:px-32 min-h-[100dvh]`}
+        className={`${inter.className} ${inter.variable} antialiased min-w-screen flex flex-col items-center justify-center px-4 md:px-16 lg:px-32 min-h-[100dvh] w-full`}
       >
         <header className="container flex flex-col items-center justify-center">
           <Navbar17></Navbar17>

@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckoutSheet } from "@/components/reservation/reservation-sheet";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -11,7 +12,6 @@ import {
 import { differenceInDays, format, subDays } from "date-fns";
 import { Info } from "lucide-react";
 import { DateRange } from "react-day-picker";
-import { CheckoutSheet } from "./checkout-sheet";
 
 interface OrderSummaryProps {
   selectedHeadset: string | undefined;
