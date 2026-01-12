@@ -48,8 +48,8 @@ export default function CheckoutForm() {
   switch (checkoutState.type) {
     case "loading":
       return (
-        <div className="flex items-center justify-center py-10">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       );
     case "error":

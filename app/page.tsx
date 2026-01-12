@@ -3,8 +3,14 @@ import { Faq2 } from "@/components/home/faq";
 import { Gallery6 } from "@/components/home/gallery";
 import { Hero } from "@/components/home/hero";
 import { MarqueeDemo } from "@/components/home/marquee";
+import { getReservations, getVRHeadsets } from "@/lib/db/queries";
 
-export default function Home() {
+export default async function Home() {
+  const [reservations, vrHeadsets] = await Promise.all([
+    getReservations(),
+    getVRHeadsets(),
+  ]);
+
   return (
     <>
       <Hero></Hero>
