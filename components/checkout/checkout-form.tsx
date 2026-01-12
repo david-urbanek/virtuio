@@ -2,11 +2,9 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { PaymentElement, useCheckout } from "@stripe/react-stripe-js/checkout";
-import { AlertCircle } from "lucide-react";
 import { useState } from "react";
 
-import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { AlertCircle, Loader2 } from "lucide-react";
 
 export default function CheckoutForm() {
   const checkoutState = useCheckout();
@@ -15,9 +13,12 @@ export default function CheckoutForm() {
   );
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (data: FormData) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (checkoutState.type === "success") {
       setIsLoading(true);
+      console.log("loading");
+      console.log(isLoading);
       setErrorMessage(undefined);
 
       try {
@@ -26,9 +27,6 @@ export default function CheckoutForm() {
         if (result.type === "error") {
           const message = result.error.message;
           setErrorMessage(message);
-          toast.error(message, {
-            duration: 10000,
-          });
           setTimeout(() => {
             setErrorMessage(undefined);
           }, 10000);
@@ -37,7 +35,10 @@ export default function CheckoutForm() {
           // Stripe redirects automatically on success
         }
       } catch (e) {
-        toast.error("An unexpected error occurred");
+        setErrorMessage("An unexpected error occurred");
+        setTimeout(() => {
+          setErrorMessage(undefined);
+        }, 10000);
       } finally {
         setIsLoading(false);
       }
@@ -55,15 +56,17 @@ export default function CheckoutForm() {
       return <div>Error: {checkoutState.error.message}</div>;
     case "success":
       return (
-        <form action={handleSubmit} className="w-full relative">
-          {isLoading && (
-            <div className="absolute inset-0 z-50 bg-background/50 backdrop-blur-sm flex items-center justify-center rounded-lg">
-              <div className="flex flex-col items-center gap-2 p-4 bg-background rounded-lg shadow-lg border">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="text-sm font-medium">Processing Payment...</p>
-              </div>
+        <form onSubmit={handleSubmit} className="w-full relative">
+          {errorMessage && (
+            <div className="fixed top-4 right-4 z-[100] w-full max-w-sm animate-in fade-in slide-in-from-top-2 duration-300">
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Chyba platby</AlertTitle>
+                <AlertDescription>{errorMessage}</AlertDescription>
+              </Alert>
             </div>
           )}
+
           <div className="mb-6 w-full gap-4 flex flex-col">
             {/* <BillingAddressElement /> */}
             <PaymentElement
@@ -76,22 +79,21 @@ export default function CheckoutForm() {
                 },
               }}
             />
-
-            {errorMessage && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>{errorMessage}</AlertDescription>
-              </Alert>
-            )}
           </div>
           <Button
             type="submit"
-            className="w-full"
+            className="w-full text-lg"
             size="lg"
             disabled={isLoading}
           >
-            {isLoading ? "Processing..." : "Pay Now"}
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Platba se zpracovává...
+              </>
+            ) : (
+              "Zaplatit"
+            )}
           </Button>
         </form>
       );
