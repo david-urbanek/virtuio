@@ -7,20 +7,14 @@ import { cs } from "date-fns/locale";
 import { Info } from "lucide-react";
 import { DateRange } from "react-day-picker";
 
+// ... imports
+import { useReservations } from "@/context/reservationContext";
+// ... imports
+
 interface OrderSummaryProps {
   selectedHeadset: string | undefined;
   date: DateRange | undefined;
 }
-
-const HEADSET_PRICES: Record<string, number> = {
-  "meta-quest-3": 500,
-  "meta-quest-3s": 400,
-};
-
-const HEADSET_NAMES: Record<string, string> = {
-  "meta-quest-3": "Meta Quest 3",
-  "meta-quest-3s": "Meta Quest 3S",
-};
 
 export function OrderSummary({
   selectedHeadsets,
@@ -29,6 +23,17 @@ export function OrderSummary({
   selectedHeadsets: string[];
   date: DateRange | undefined;
 }) {
+  const { headsets } = useReservations();
+
+  const headsetNames = headsets.reduce(
+    (acc, h) => ({ ...acc, [h.id]: h.name }),
+    {} as Record<string, string>
+  );
+  const headsetPrices = headsets.reduce(
+    (acc, h) => ({ ...acc, [h.id]: h.daily_rate }),
+    {} as Record<string, number>
+  );
+
   const isComplete = selectedHeadsets.length > 0 && !!date?.from;
 
   const days = date?.from
@@ -38,7 +43,7 @@ export function OrderSummary({
     : 0;
 
   const totalPricePerDay = selectedHeadsets.reduce(
-    (sum, id) => sum + (HEADSET_PRICES[id] || 0),
+    (sum, id) => sum + (headsetPrices[id] || 0),
     0
   );
   const total = days * totalPricePerDay;
@@ -61,10 +66,10 @@ export function OrderSummary({
                 {selectedHeadsets.map((id) => (
                   <div key={id} className="flex justify-between items-center">
                     <span className="text-sm font-medium">
-                      {HEADSET_NAMES[id]}
+                      {headsetNames[id]}
                     </span>
                     <Badge variant="secondary">
-                      {HEADSET_PRICES[id]} Kč/den
+                      {headsetPrices[id]} Kč/den
                     </Badge>
                   </div>
                 ))}
@@ -145,8 +150,8 @@ export function OrderSummary({
             selectedHeadsets={selectedHeadsets}
             date={date}
             totalPrice={total}
-            headsetNames={HEADSET_NAMES}
-            headsetPrices={HEADSET_PRICES}
+            headsetNames={headsetNames}
+            headsetPrices={headsetPrices}
             days={days}
             deliveryDate={deliveryDate}
             pickupDate={pickupDate}
