@@ -368,39 +368,38 @@ export function ReservationForm({
 
         <div className="mt-4 space-y-3">
           <SubmitButton />
-
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full dashed border-muted-foreground/50"
-            onClick={async () => {
-              const formData = new FormData();
-              formData.append("firstName", "Jan");
-              formData.append("lastName", "Testovač");
-              formData.append("email", "jan.testovac@example.com");
-              formData.append("phone", "+420777888999");
-              formData.append("street", "Testovací Ulice");
-              formData.append("houseNumber", "123/A");
-              formData.append("city", "Brno");
-              // Mocking Headset ID 1 (ensure this exists in your DB or use a valid ID)
-              // The action expects numbers now!
-              formData.append("headsetIds", JSON.stringify([1]));
-
-              const now = new Date();
-              const nextDay = new Date(now);
-              nextDay.setDate(now.getDate() + 1);
-
-              formData.append("fromDate", now.toISOString());
-              formData.append("toDate", nextDay.toISOString());
-
-              // Trigger the action directly
-              formAction(formData);
-            }}
-          >
-            🧪 Test Submit (Mock Data)
-          </Button>
         </div>
       </form>
+      <Button
+        type="button"
+        variant="outline"
+        className="w-full dashed border-muted-foreground/50"
+        onClick={async () => {
+          const formData = new FormData();
+          formData.append("firstName", "Jan");
+          formData.append("lastName", "Testovač");
+          formData.append("email", "jan.testovac@example.com");
+          formData.append("phone", "+420777888999");
+          formData.append("street", "Testovací Ulice");
+          formData.append("houseNumber", "123/A");
+          formData.append("city", "Brno");
+          // Mocking Headset ID 1 (ensure this exists in your DB or use a valid ID)
+          // The action expects numbers now!
+          formData.append("headsetIds", JSON.stringify([1]));
+
+          const now = new Date();
+          const nextDay = new Date(now);
+          nextDay.setDate(now.getDate() + 1);
+
+          formData.append("fromDate", now.toISOString());
+          formData.append("toDate", nextDay.toISOString());
+
+          // Trigger the action directly
+          formAction(formData);
+        }}
+      >
+        🧪 Test Submit (Mock Data)
+      </Button>
     </>
   );
 }

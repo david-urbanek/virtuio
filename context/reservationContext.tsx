@@ -79,13 +79,6 @@ export function ReservationContextProvider({
         if (parsed.selectedHeadsets)
           setSelectedHeadsets(parsed.selectedHeadsets);
         if (parsed.formData) setFormData(parsed.formData);
-        if (parsed.date) {
-          // Revive dates
-          setDate({
-            from: parsed.date.from ? new Date(parsed.date.from) : undefined,
-            to: parsed.date.to ? new Date(parsed.date.to) : undefined,
-          });
-        }
       } catch (e) {
         console.error("Failed to parse cache", e);
       }
@@ -96,11 +89,10 @@ export function ReservationContextProvider({
   useEffect(() => {
     const cacheData = {
       selectedHeadsets,
-      date,
       formData,
     };
     localStorage.setItem("vr_reservation_cache", JSON.stringify(cacheData));
-  }, [selectedHeadsets, date, formData]);
+  }, [selectedHeadsets, formData]);
 
   // Fetch DB Data
   useEffect(() => {
@@ -124,7 +116,6 @@ export function ReservationContextProvider({
 
   const resetAll = () => {
     setSelectedHeadsets([]);
-    setDate(undefined);
     setFormData(INITIAL_FORM_DATA);
     localStorage.removeItem("vr_reservation_cache");
   };
