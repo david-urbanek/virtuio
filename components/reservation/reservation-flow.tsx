@@ -32,6 +32,7 @@ export function ReservationFlow() {
               <AvailabilityCalendar
                 date={date}
                 setDate={setDate}
+                selectedHeadsets={headsets}
                 className="w-full"
               />
             </BlurFade>

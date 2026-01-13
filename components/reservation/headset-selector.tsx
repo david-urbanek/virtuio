@@ -33,24 +33,26 @@ export function HeadsetSelector({
             key={headset.id}
             value={headset.id}
             className={cn(
-              "h-auto flex-col items-start p-4 gap-2 rounded-xl border-2 border-transparent bg-muted/50 data-[state=on]:border-primary data-[state=on]:bg-primary/10 transition-all hover:bg-muted text-left w-full",
+              "h-auto flex-col items-start p-5 gap-4 rounded-xl border-2 border-transparent bg-muted/50 data-[state=on]:border-primary data-[state=on]:bg-primary/10 transition-all hover:bg-muted text-left w-full",
               selectedIds.includes(headset.id) && "border-primary bg-primary/10"
             )}
           >
-            <div className="flex items-center gap-3 w-full">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-background shrink-0">
-                <RectangleGoggles className="w-5 h-5 text-foreground" />
+            <div className="grid grid-cols-[auto_1fr] items-start gap-4 w-full text-left">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-background shrink-0 mt-1">
+                <RectangleGoggles className="w-6 h-6 text-foreground" />
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-semibold text-foreground truncate">
-                  {headset.name}
+              <div className="flex flex-col items-start gap-3 w-full min-w-0">
+                <div className="flex flex-col gap-1.5 w-full">
+                  <span className="font-semibold text-foreground leading-none">
+                    {headset.name}
+                  </span>
+                  <span className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                    Profesionální VR set pro náročné hráče
+                  </span>
                 </div>
-                <div className="text-xs text-muted-foreground truncate">
-                  Profesionální VR set
-                </div>
-              </div>
-              <div className="font-mono text-sm font-bold text-primary shrink-0">
-                {headset.daily_rate} Kč/den
+                <span className="font-mono text-xs font-bold text-primary whitespace-nowrap bg-primary/10 px-2.5 py-1 rounded-md">
+                  {headset.daily_rate} Kč/den
+                </span>
               </div>
             </div>
           </ToggleGroupItem>
