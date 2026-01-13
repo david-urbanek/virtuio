@@ -77,7 +77,7 @@ export function AvailabilityCalendar({
         // považujeme to za neplatný rozsah.
         // Místo toho, abychom to celé zahodili, začneme novou rezervaci od dne, na který uživatel PŘÁVĚ KLIKNUL.
         if (!isDateDisabled(selectedDay)) {
-          setDate({ from: selectedDay, to: undefined });
+          setDate({ from: selectedDay, to: selectedDay });
         }
         return;
       }
@@ -103,7 +103,7 @@ export function AvailabilityCalendar({
           locale={cs}
           numberOfMonths={2}
           disabled={[
-            { before: new Date(new Date().setHours(0, 0, 0, 0)) },
+            { before: new Date(new Date().setDate(new Date().getDate() + 2)) },
             ...bookedDates,
           ]}
           className="rounded-md border-0"

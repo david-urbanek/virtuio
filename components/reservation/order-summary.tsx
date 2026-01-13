@@ -37,13 +37,16 @@ export function OrderSummary({
     {} as Record<string, number>
   );
 
-  const isComplete = selectedHeadsets.length > 0 && !!date?.from;
+  const isComplete = selectedHeadsets.length > 0 && !!date?.from && !!date?.to;
 
-  const days = date?.from
-    ? date.to
-      ? differenceInDays(date.to, date.from) + 1
-      : 1
-    : 0;
+  function countDays() {
+    if (!date?.from || !date?.to) return 0;
+    if (differenceInDays(date.to, date.from) === 0) return 1;
+    if (differenceInDays(date.to, date.from) === 1) return 2;
+    return differenceInDays(date.to, date.from) + 1;
+  }
+
+  const days = countDays();
 
   const totalPricePerDay = selectedHeadsets.reduce(
     (sum, id) => sum + (headsetPrices[id] || 0),
@@ -51,8 +54,12 @@ export function OrderSummary({
   );
   const total = days * totalPricePerDay;
 
+  console.log(days);
+
   const deliveryDate = date?.from ? subDays(date.from, 1) : null;
   const pickupDate = date?.to || date?.from;
+
+  console.log(date);
 
   return (
     <div className="flex flex-col gap-4 h-full">

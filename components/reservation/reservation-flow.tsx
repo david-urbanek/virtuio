@@ -9,7 +9,7 @@ import { OrderSummary } from "./order-summary";
 
 // ... component start
 export function ReservationFlow() {
-  const [headsets, setHeadsets] = React.useState<string[]>(["meta-quest-3"]);
+  const [headsets, setHeadsets] = React.useState<string[]>([]);
   const [date, setDate] = React.useState<DateRange | undefined>();
 
   return (

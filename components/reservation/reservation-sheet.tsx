@@ -41,7 +41,7 @@ export function CheckoutSheet(props: CheckoutSheetProps) {
       </SheetTrigger>
 
       <SheetContent className="overflow-y-auto sm:max-w-lg p-8">
-        <SheetHeader>
+        <SheetHeader className="text-left p-0">
           <SheetTitle>Dokončete svou rezervaci</SheetTitle>
           <SheetDescription>
             Zadejte své údaje pro dokončení rezervace.
