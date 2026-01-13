@@ -1,5 +1,6 @@
 "use client";
 
+import { cs } from "date-fns/locale";
 import { DateRange } from "react-day-picker";
 
 import { Calendar } from "@/components/ui/calendar";
@@ -84,7 +85,9 @@ export function AvailabilityCalendar({
 
   return (
     <div className={cn("flex flex-col gap-4", className)}>
-      <h2 className="text-xl font-semibold text-foreground">2. Select Dates</h2>
+      <h2 className="text-xl font-semibold text-foreground">
+        2. Vyberte termín
+      </h2>
       <div className="p-4 border rounded-xl bg-card shadow-sm w-fit max-w-full overflow-x-auto">
         <Calendar
           initialFocus
@@ -92,6 +95,7 @@ export function AvailabilityCalendar({
           defaultMonth={date?.from}
           selected={date}
           onSelect={handleSelect}
+          locale={cs}
           numberOfMonths={2}
           disabled={[
             { before: new Date(new Date().setHours(0, 0, 0, 0)) },
@@ -109,9 +113,9 @@ export function AvailabilityCalendar({
       </div>
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <div className="w-3 h-3 rounded-full bg-green-100 border border-green-200" />
-        <span>Available</span>
+        <span>Dostupné</span>
         <div className="w-3 h-3 rounded-full bg-red-100 border border-red-200 ml-4" />
-        <span>Booked</span>
+        <span>Obsazené</span>
       </div>
     </div>
   );

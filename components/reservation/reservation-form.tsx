@@ -1,5 +1,4 @@
-"use client";
-
+// ... imports
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { createOrderAction } from "@/lib/reservation/action";
 import { format } from "date-fns";
+import { cs } from "date-fns/locale";
 import { AlertCircle, CheckCircle2, Info, Loader2 } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { DateRange } from "react-day-picker";
@@ -32,10 +32,10 @@ function SubmitButton() {
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Processing...
+          Zpracovávám...
         </>
       ) : (
-        "Place Order"
+        "Objednat"
       )}
     </Button>
   );
@@ -69,9 +69,11 @@ export function ReservationForm({
     return (
       <div className="flex flex-col items-center justify-center h-full py-10 space-y-4">
         <CheckCircle2 className="w-16 h-16 text-green-500" />
-        <h2 className="text-2xl font-bold text-center">Order Confirmed!</h2>
+        <h2 className="text-2xl font-bold text-center">
+          Objednávka potvrzena!
+        </h2>
         <p className="text-center text-muted-foreground">
-          Thank you for your reservation. We will contact you shortly.
+          Děkujeme za vaši rezervaci. Brzy vás budeme kontaktovat.
         </p>
       </div>
     );
@@ -86,7 +88,7 @@ export function ReservationForm({
           <div className="fixed top-4 right-4 z-[100] w-full max-w-sm animate-in fade-in slide-in-from-top-5">
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4 text-white" />
-              <AlertTitle>Error</AlertTitle>
+              <AlertTitle>Chyba</AlertTitle>
               <AlertDescription>{state.message}</AlertDescription>
             </Alert>
           </div>
@@ -112,7 +114,7 @@ export function ReservationForm({
         {/* Contact Details Form */}
         <div className="grid gap-4">
           <h3 className="font-semibold text-sm text-foreground">
-            Contact Information
+            Kontaktní údaje
           </h3>
           {/* Name */}
           <div className="grid grid-cols-2 gap-4">
@@ -121,12 +123,12 @@ export function ReservationForm({
                 htmlFor="firstName"
                 className={state.errors?.firstName ? "text-destructive" : ""}
               >
-                First Name
+                Jméno
               </Label>
               <Input
                 id="firstName"
                 name="firstName"
-                placeholder="John"
+                placeholder="Jan"
                 defaultValue={state.fields?.firstName}
                 className={state.errors?.firstName ? "border-destructive" : ""}
               />
@@ -141,12 +143,12 @@ export function ReservationForm({
                 htmlFor="lastName"
                 className={state.errors?.lastName ? "text-destructive" : ""}
               >
-                Last Name
+                Příjmení
               </Label>
               <Input
                 id="lastName"
                 name="lastName"
-                placeholder="Doe"
+                placeholder="Novák"
                 defaultValue={state.fields?.lastName}
                 className={state.errors?.lastName ? "border-destructive" : ""}
               />
@@ -169,7 +171,7 @@ export function ReservationForm({
               id="email"
               name="email"
               type="email"
-              placeholder="john@example.com"
+              placeholder="jan.novak@example.com"
               defaultValue={state.fields?.email}
               className={state.errors?.email ? "border-destructive" : ""}
             />
@@ -184,13 +186,13 @@ export function ReservationForm({
               htmlFor="phone"
               className={state.errors?.phone ? "text-destructive" : ""}
             >
-              Phone
+              Telefon
             </Label>
             <Input
               id="phone"
               name="phone"
               type="tel"
-              placeholder="+1 234 567 890"
+              placeholder="+420 123 456 789"
               defaultValue={state.fields?.phone}
               className={state.errors?.phone ? "border-destructive" : ""}
             />
@@ -203,10 +205,10 @@ export function ReservationForm({
 
           {/* Address */}
           <h3 className="font-semibold text-sm text-foreground mt-2">
-            Delivery Address
+            Doručovací adresa
           </h3>
           <div className="grid gap-2">
-            <Label htmlFor="city">City</Label>
+            <Label htmlFor="city">Město</Label>
             <select
               id="city"
               name="city"
@@ -216,7 +218,7 @@ export function ReservationForm({
               <option value="Brno">Brno</option>
             </select>
             <p className="text-[10px] text-muted-foreground">
-              Currently we only deliver to Brno.
+              Aktuálně doručujeme pouze po Brně.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-4">
@@ -225,12 +227,12 @@ export function ReservationForm({
                 htmlFor="street"
                 className={state.errors?.street ? "text-destructive" : ""}
               >
-                Street
+                Ulice
               </Label>
               <Input
                 id="street"
                 name="street"
-                placeholder="Main St"
+                placeholder="Hlavní"
                 defaultValue={state.fields?.street}
                 className={state.errors?.street ? "border-destructive" : ""}
               />
@@ -245,7 +247,7 @@ export function ReservationForm({
                 htmlFor="houseNumber"
                 className={state.errors?.houseNumber ? "text-destructive" : ""}
               >
-                No.
+                Č.p.
               </Label>
               <Input
                 id="houseNumber"
@@ -270,7 +272,7 @@ export function ReservationForm({
         {/* Review Order Summary */}
         <div className="grid gap-4">
           <h3 className="font-semibold text-sm text-foreground">
-            Order Summary
+            Souhrn objednávky
           </h3>
 
           {/* Headsets */}
@@ -282,7 +284,7 @@ export function ReservationForm({
               >
                 <span>{headsetNames[id]}</span>
                 <Badge variant="outline" className="font-mono">
-                  ${headsetPrices[id]}/day
+                  {headsetPrices[id]} Kč/day
                 </Badge>
               </div>
             ))}
@@ -291,20 +293,20 @@ export function ReservationForm({
           {/* Dates */}
           <div className="bg-muted/30 p-3 rounded-lg text-xs space-y-1 text-muted-foreground">
             <div className="flex justify-between">
-              <span>From:</span>
+              <span>Od:</span>
               <span className="font-medium text-foreground">
-                {date?.from ? format(date.from, "PPP") : "-"}
+                {date?.from ? format(date.from, "PPP", { locale: cs }) : "-"}
               </span>
             </div>
             <div className="flex justify-between">
-              <span>To:</span>
+              <span>Do:</span>
               <span className="font-medium text-foreground">
-                {pickupDate ? format(pickupDate, "PPP") : "-"}
+                {pickupDate ? format(pickupDate, "PPP", { locale: cs }) : "-"}
               </span>
             </div>
             <div className="flex justify-between pt-1 border-t mt-1">
-              <span>Duration:</span>
-              <span>{days} days</span>
+              <span>Délka:</span>
+              <span>{days} dní</span>
             </div>
           </div>
 
@@ -313,9 +315,9 @@ export function ReservationForm({
             <div className="flex gap-2 text-xs text-muted-foreground items-start">
               <Info className="w-4 h-4 text-primary shrink-0" />
               <p>
-                Delivery scheduled for{" "}
+                Doručení naplánováno na{" "}
                 <span className="font-medium text-foreground">
-                  {format(deliveryDate, "PPP")} at 18:00
+                  {format(deliveryDate, "PPP", { locale: cs })} v 18:00
                 </span>
                 .
               </p>
@@ -325,9 +327,9 @@ export function ReservationForm({
           <Separator />
 
           <div className="flex justify-between items-end">
-            <span className="font-semibold">Total to Pay</span>
+            <span className="font-semibold">Celkem k úhradě</span>
             <span className="text-2xl font-bold text-primary">
-              ${totalPrice}
+              {totalPrice} Kč
             </span>
           </div>
         </div>

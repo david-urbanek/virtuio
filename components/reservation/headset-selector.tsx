@@ -19,7 +19,7 @@ export function HeadsetSelector({
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-xl font-semibold text-foreground">
-        1. Choose your Headset
+        1. Vyberte si headset
       </h2>
       <ToggleGroup
         type="multiple"
@@ -44,11 +44,11 @@ export function HeadsetSelector({
                 Meta Quest 3
               </div>
               <div className="text-xs text-muted-foreground truncate">
-                The ultimate experience
+                Ultimátní zážitek
               </div>
             </div>
             <div className="font-mono text-sm font-bold text-primary shrink-0">
-              $50/day
+              500 Kč/den
             </div>
           </div>
         </ToggleGroupItem>
@@ -70,11 +70,11 @@ export function HeadsetSelector({
                 Meta Quest 3S
               </div>
               <div className="text-xs text-muted-foreground truncate">
-                Lightweight & powerful
+                Lehký a výkonný
               </div>
             </div>
             <div className="font-mono text-sm font-bold text-primary shrink-0">
-              $40/day
+              400 Kč/den
             </div>
           </div>
         </ToggleGroupItem>

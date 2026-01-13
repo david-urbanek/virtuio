@@ -1,5 +1,4 @@
-"use client";
-
+// ... imports
 import { CheckoutSheet } from "@/components/reservation/reservation-sheet";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -10,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { differenceInDays, format, subDays } from "date-fns";
+import { cs } from "date-fns/locale";
 import { Info } from "lucide-react";
 import { DateRange } from "react-day-picker";
 
@@ -19,8 +19,8 @@ interface OrderSummaryProps {
 }
 
 const HEADSET_PRICES: Record<string, number> = {
-  "meta-quest-3": 50,
-  "meta-quest-3s": 40,
+  "meta-quest-3": 500,
+  "meta-quest-3s": 400,
 };
 
 const HEADSET_NAMES: Record<string, string> = {
@@ -54,10 +54,10 @@ export function OrderSummary({
 
   return (
     <div className="flex flex-col gap-4 h-full">
-      <h2 className="text-xl font-semibold text-foreground">3. Overview</h2>
+      <h2 className="text-xl font-semibold text-foreground">3. Souhrn</h2>
       <Card className="flex flex-col h-full shadow-lg border-2">
         <CardHeader className="pb-4">
-          <CardTitle>Your Reservation</CardTitle>
+          <CardTitle>Vaše rezervace</CardTitle>
         </CardHeader>
         <CardContent className="flex-1 space-y-6">
           {/* Headset Section */}
@@ -72,40 +72,42 @@ export function OrderSummary({
                     <span className="text-sm font-medium">
                       {HEADSET_NAMES[id]}
                     </span>
-                    <Badge variant="secondary">${HEADSET_PRICES[id]}/day</Badge>
+                    <Badge variant="secondary">
+                      {HEADSET_PRICES[id]} Kč/den
+                    </Badge>
                   </div>
                 ))}
               </div>
             ) : (
-              <span className="text-lg font-medium">Not selected</span>
+              <span className="text-lg font-medium">Nevybráno</span>
             )}
           </div>
 
           {/* Date Section */}
           <div className="space-y-2">
             <span className="text-sm font-medium text-muted-foreground">
-              Dates
+              Termín
             </span>
             <div className="flex flex-col gap-1">
               <div className="flex justify-between">
-                <span>From:</span>
+                <span>Od:</span>
                 <span className="font-medium">
-                  {date?.from ? format(date.from, "PPP") : "-"}
+                  {date?.from ? format(date.from, "PPP", { locale: cs }) : "-"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span>To:</span>
+                <span>Do:</span>
                 <span className="font-medium">
                   {date?.to
-                    ? format(date.to, "PPP")
+                    ? format(date.to, "PPP", { locale: cs })
                     : date?.from
-                    ? format(date.from, "PPP")
+                    ? format(date.from, "PPP", { locale: cs })
                     : "-"}
                 </span>
               </div>
               <div className="flex justify-between text-sm text-muted-foreground mt-1">
-                <span>Duration:</span>
-                <span>{days > 0 ? `${days} days` : "-"}</span>
+                <span>Délka:</span>
+                <span>{days > 0 ? `${days} dní` : "-"}</span>
               </div>
             </div>
           </div>
@@ -116,23 +118,26 @@ export function OrderSummary({
               <Info className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
               <div className="space-y-1">
                 <p>
-                  <span className="font-medium text-foreground">Delivery:</span>{" "}
-                  We will bring the VR on{" "}
+                  <span className="font-medium text-foreground">Doručení:</span>{" "}
+                  Brýle přivezeme{" "}
                   <span className="font-medium text-foreground">
-                    {format(deliveryDate, "PPP")} at 18:00
+                    {format(deliveryDate, "PPP", { locale: cs })} v 18:00
                   </span>
                   .
                 </p>
                 <p>
-                  <span className="font-medium text-foreground">Pickup:</span>{" "}
-                  We will collect it on{" "}
                   <span className="font-medium text-foreground">
-                    {format(pickupDate, "PPP")} at 18:00
+                    Vyzvednutí:
+                  </span>{" "}
+                  Vyzvedneme si je{" "}
+                  <span className="font-medium text-foreground">
+                    {format(pickupDate, "PPP", { locale: cs })} v 18:00
                   </span>
                   .
                 </p>
                 <p className="text-xs pt-1 opacity-80">
-                  *Delivered a day early so you get full 24 hours.
+                  *Doručujeme o den dříve, abyste měli k dispozici celých 24
+                  hodin.
                 </p>
               </div>
             </div>
@@ -140,8 +145,8 @@ export function OrderSummary({
 
           {/* Total Section */}
           <div className="flex justify-between items-end pt-2">
-            <span className="text-lg font-semibold">Total</span>
-            <span className="text-3xl font-bold text-primary">${total}</span>
+            <span className="text-lg font-semibold">Celkem</span>
+            <span className="text-3xl font-bold text-primary">{total} Kč</span>
           </div>
         </CardContent>
         <CardFooter>

@@ -7,12 +7,16 @@ import { AvailabilityCalendar } from "./availability-calendar";
 import { HeadsetSelector } from "./headset-selector";
 import { OrderSummary } from "./order-summary";
 
+// ... component start
 export function ReservationFlow() {
-  const [headsets, setHeadsets] = React.useState<string[]>([]);
+  const [headsets, setHeadsets] = React.useState<string[]>(["meta-quest-3"]);
   const [date, setDate] = React.useState<DateRange | undefined>();
 
   return (
     <div className="container mx-auto py-10 px-4 max-w-[1400px]">
+      <h1 className="text-4xl font-extrabold tracking-tight mb-8 text-left">
+        Vytvořit rezervaci
+      </h1>
       <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 items-start">
         {/* Left Part: Headset Selector (Always visible) */}
         <div className="lg:col-span-3 space-y-8 w-full">

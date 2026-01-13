@@ -36,15 +36,15 @@ export function CheckoutSheet(props: CheckoutSheetProps) {
           size="lg"
           disabled={props.disabled}
         >
-          Finalize Reservation
+          Dokončit rezervaci
         </Button>
       </SheetTrigger>
 
       <SheetContent className="overflow-y-auto sm:max-w-lg p-8">
         <SheetHeader>
-          <SheetTitle>Complete Your Reservation</SheetTitle>
+          <SheetTitle>Dokončete svou rezervaci</SheetTitle>
           <SheetDescription>
-            Enter your details to finalize the booking.
+            Zadejte své údaje pro dokončení rezervace.
           </SheetDescription>
         </SheetHeader>
 

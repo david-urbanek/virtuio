@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 
-export async function getReservations() {
+export async function getReservedReservations() {
   const supabase = await createClient();
   const { data, error } = await supabase.from("reservations").select("*");
   if (error) {
