@@ -14,9 +14,7 @@ export function ReservationFlow() {
 
   return (
     <div className="container mx-auto py-10 px-4 max-w-[1400px]">
-      <h1 className="text-4xl font-extrabold tracking-tight mb-8 text-left">
-        Vytvořit rezervaci
-      </h1>
+      <h2 className="tracking-tight mb-8 text-left">Vytvořit rezervaci:</h2>
       <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 items-start">
         {/* Left Part: Headset Selector (Always visible) */}
         <div className="lg:col-span-3 space-y-8 w-full">

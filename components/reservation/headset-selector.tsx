@@ -2,7 +2,7 @@
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-import { Monitor, Smartphone } from "lucide-react";
+import { RectangleGoggles, Smartphone } from "lucide-react";
 
 interface HeadsetSelectorProps {
   selectedId: string | undefined;
@@ -37,7 +37,7 @@ export function HeadsetSelector({
         >
           <div className="flex items-center gap-3 w-full">
             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-background shrink-0">
-              <Monitor className="w-5 h-5 text-foreground" />
+              <RectangleGoggles className="w-5 h-5 text-foreground" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="font-semibold text-foreground truncate">

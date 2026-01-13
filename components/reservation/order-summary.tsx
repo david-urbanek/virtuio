@@ -1,13 +1,7 @@
 // ... imports
 import { CheckoutSheet } from "@/components/reservation/reservation-sheet";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { differenceInDays, format, subDays } from "date-fns";
 import { cs } from "date-fns/locale";
 import { Info } from "lucide-react";
@@ -56,9 +50,6 @@ export function OrderSummary({
     <div className="flex flex-col gap-4 h-full">
       <h2 className="text-xl font-semibold text-foreground">3. Souhrn</h2>
       <Card className="flex flex-col h-full shadow-lg border-2">
-        <CardHeader className="pb-4">
-          <CardTitle>Vaše rezervace</CardTitle>
-        </CardHeader>
         <CardContent className="flex-1 space-y-6">
           {/* Headset Section */}
           <div className="space-y-2">
