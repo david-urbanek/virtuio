@@ -10,18 +10,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
-import { DateRange } from "react-day-picker";
 import { ReservationForm } from "./reservation-form";
 
+// ... imports
+
 interface CheckoutSheetProps {
-  selectedHeadsets: string[];
-  date: DateRange | undefined;
   totalPrice: number;
-  headsetNames: Record<string, string>;
-  headsetPrices: Record<string, number>;
   days: number;
-  deliveryDate: Date | null;
-  pickupDate: Date | undefined;
   disabled?: boolean;
 }
 

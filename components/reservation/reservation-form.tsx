@@ -1,5 +1,4 @@
 // ... imports
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,22 +7,24 @@ import { Separator } from "@/components/ui/separator";
 import { createOrderAction } from "@/lib/reservation/action";
 import { format } from "date-fns";
 import { cs } from "date-fns/locale";
-import { AlertCircle, CheckCircle2, Info, Loader2 } from "lucide-react";
+import { Info } from "lucide-react";
 import { useActionState, useEffect } from "react";
-import { DateRange } from "react-day-picker";
+
+// ... imports
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useReservations } from "@/context/reservationContext";
+import { subDays } from "date-fns";
+import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
 
 interface ReservationFormProps {
-  selectedHeadsets: string[];
-  date: DateRange | undefined;
   totalPrice: number;
-  headsetNames: Record<string, string>;
-  headsetPrices: Record<string, number>;
   days: number;
-  deliveryDate: Date | null;
-  pickupDate: Date | undefined;
   onSuccess?: () => void;
 }
+
+// ... imports
+// ... imports
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -40,18 +41,34 @@ function SubmitButton() {
     </Button>
   );
 }
+// ... SubmitButton
 
 export function ReservationForm({
-  selectedHeadsets,
-  date,
   totalPrice,
-  headsetNames,
-  headsetPrices,
   days,
-  deliveryDate,
-  pickupDate,
   onSuccess,
 }: ReservationFormProps) {
+  const {
+    headsets,
+    selectedHeadsets,
+    date,
+    formData,
+    updateFormField,
+    resetAll,
+  } = useReservations();
+
+  const headsetNames = headsets.reduce(
+    (acc, h) => ({ ...acc, [h.id]: h.name }),
+    {} as Record<string, string>
+  );
+  const headsetPrices = headsets.reduce(
+    (acc, h) => ({ ...acc, [h.id]: h.daily_rate }),
+    {} as Record<string, number>
+  );
+
+  const deliveryDate = date?.from ? subDays(date.from, 1) : null;
+  const pickupDate = date?.to || date?.from;
+
   const [state, formAction] = useActionState(createOrderAction, {
     success: false,
     message: "",
@@ -59,11 +76,13 @@ export function ReservationForm({
     fields: {},
   });
 
+  // ... inside ReservationForm
   useEffect(() => {
     if (state.success) {
       if (onSuccess) onSuccess();
+      resetAll(); // Reset context state on global success
     }
-  }, [state.success, onSuccess]);
+  }, [state.success, onSuccess, resetAll]);
 
   if (state.success) {
     return (
@@ -79,6 +98,7 @@ export function ReservationForm({
     );
   }
 
+  // ... after success check
   return (
     <>
       {/* GLOBAL ALERT (Top Right) */}
@@ -94,7 +114,12 @@ export function ReservationForm({
           </div>
         )}
 
-      <form action={formAction} className="grid gap-6 py-6">
+      <form
+        action={formAction}
+        className="grid gap-6 py-6"
+        id="reservation-form"
+      >
+        {/* Hidden inputs to pass context data to Server Action */}
         <input
           type="hidden"
           name="headsetIds"
@@ -129,7 +154,8 @@ export function ReservationForm({
                 id="firstName"
                 name="firstName"
                 placeholder="Jan"
-                defaultValue={state.fields?.firstName}
+                value={formData.firstName || ""}
+                onChange={(e) => updateFormField("firstName", e.target.value)}
                 className={state.errors?.firstName ? "border-destructive" : ""}
               />
               {state.errors?.firstName && (
@@ -149,7 +175,8 @@ export function ReservationForm({
                 id="lastName"
                 name="lastName"
                 placeholder="Novák"
-                defaultValue={state.fields?.lastName}
+                value={formData.lastName || ""}
+                onChange={(e) => updateFormField("lastName", e.target.value)}
                 className={state.errors?.lastName ? "border-destructive" : ""}
               />
               {state.errors?.lastName && (
@@ -172,7 +199,8 @@ export function ReservationForm({
               name="email"
               type="email"
               placeholder="jan.novak@example.com"
-              defaultValue={state.fields?.email}
+              value={formData.email || ""}
+              onChange={(e) => updateFormField("email", e.target.value)}
               className={state.errors?.email ? "border-destructive" : ""}
             />
             {state.errors?.email && (
@@ -193,7 +221,8 @@ export function ReservationForm({
               name="phone"
               type="tel"
               placeholder="+420 123 456 789"
-              defaultValue={state.fields?.phone}
+              value={formData.phone || ""}
+              onChange={(e) => updateFormField("phone", e.target.value)}
               className={state.errors?.phone ? "border-destructive" : ""}
             />
             {state.errors?.phone && (
@@ -212,8 +241,9 @@ export function ReservationForm({
             <select
               id="city"
               name="city"
+              value={formData.city || "Brno"}
+              onChange={(e) => updateFormField("city", e.target.value)}
               className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              defaultValue="Brno"
             >
               <option value="Brno">Brno</option>
             </select>
@@ -233,7 +263,8 @@ export function ReservationForm({
                 id="street"
                 name="street"
                 placeholder="Hlavní"
-                defaultValue={state.fields?.street}
+                value={formData.street || ""}
+                onChange={(e) => updateFormField("street", e.target.value)}
                 className={state.errors?.street ? "border-destructive" : ""}
               />
               {state.errors?.street && (
@@ -253,7 +284,8 @@ export function ReservationForm({
                 id="houseNumber"
                 name="houseNumber"
                 placeholder="123"
-                defaultValue={state.fields?.houseNumber}
+                value={formData.houseNumber || ""}
+                onChange={(e) => updateFormField("houseNumber", e.target.value)}
                 className={
                   state.errors?.houseNumber ? "border-destructive" : ""
                 }

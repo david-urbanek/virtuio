@@ -6,16 +6,8 @@ import { useReservations } from "@/context/reservationContext";
 import { cn } from "@/lib/utils";
 import { RectangleGoggles } from "lucide-react";
 
-interface HeadsetSelectorProps {
-  selectedIds: string[];
-  onSelect: (value: string[]) => void;
-}
-
-export function HeadsetSelector({
-  selectedIds,
-  onSelect,
-}: HeadsetSelectorProps) {
-  const { headsets } = useReservations();
+export function HeadsetSelector() {
+  const { headsets, selectedHeadsets, selectHeadsets } = useReservations();
 
   return (
     <div className="flex flex-col gap-4">
@@ -24,8 +16,8 @@ export function HeadsetSelector({
       </h2>
       <ToggleGroup
         type="multiple"
-        value={selectedIds}
-        onValueChange={onSelect}
+        value={selectedHeadsets}
+        onValueChange={selectHeadsets}
         className="flex flex-col gap-4 w-full"
       >
         {headsets.map((headset) => (
@@ -34,7 +26,8 @@ export function HeadsetSelector({
             value={headset.id}
             className={cn(
               "h-auto flex-col items-start p-5 gap-4 rounded-xl border-2 border-transparent bg-muted/50 data-[state=on]:border-primary data-[state=on]:bg-primary/10 transition-all hover:bg-muted text-left w-full",
-              selectedIds.includes(headset.id) && "border-primary bg-primary/10"
+              selectedHeadsets.includes(headset.id) &&
+                "border-primary bg-primary/10"
             )}
           >
             <div className="grid grid-cols-[auto_1fr] items-start gap-4 w-full text-left">

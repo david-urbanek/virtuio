@@ -5,28 +5,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { differenceInDays, format, subDays } from "date-fns";
 import { cs } from "date-fns/locale";
 import { Info } from "lucide-react";
-import { DateRange } from "react-day-picker";
 
 // ... imports
 import { useReservations } from "@/context/reservationContext";
 // ... imports
 
-interface OrderSummaryProps {
-  selectedHeadset: string | undefined;
-  date: DateRange | undefined;
-}
-
 import { Separator } from "@/components/ui/separator";
 import { Truck } from "lucide-react";
 
-export function OrderSummary({
-  selectedHeadsets,
-  date,
-}: {
-  selectedHeadsets: string[];
-  date: DateRange | undefined;
-}) {
-  const { headsets } = useReservations();
+export function OrderSummary() {
+  const { headsets, selectedHeadsets, date } = useReservations();
 
   const headsetNames = headsets.reduce(
     (acc, h) => ({ ...acc, [h.id]: h.name }),
@@ -183,14 +171,8 @@ export function OrderSummary({
             </span>
           </div>
           <CheckoutSheet
-            selectedHeadsets={selectedHeadsets}
-            date={date}
             totalPrice={total}
-            headsetNames={headsetNames}
-            headsetPrices={headsetPrices}
             days={days}
-            deliveryDate={deliveryDate}
-            pickupDate={pickupDate}
             disabled={!isComplete}
           />
         </div>

@@ -9,20 +9,15 @@ import { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 
+// ... imports
 interface AvailabilityCalendarProps {
-  date: DateRange | undefined;
-  setDate: (date: DateRange | undefined) => void;
-  selectedHeadsets: string[];
-  className?: string;
+  className?: string; // Only className remains as a prop
 }
 
-export function AvailabilityCalendar({
-  date,
-  setDate,
-  selectedHeadsets,
-  className,
-}: AvailabilityCalendarProps) {
-  const { reservations } = useReservations();
+export function AvailabilityCalendar({ className }: AvailabilityCalendarProps) {
+  const { reservations, date, selectDate, selectedHeadsets } =
+    useReservations();
+  const setDate = selectDate; // Alias to match previous usage logic if desired, or updated usage.
 
   const bookedDates = useMemo(() => {
     // 1. Filtr rezervací pro vybrané headsety
