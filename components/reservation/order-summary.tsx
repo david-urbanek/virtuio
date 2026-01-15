@@ -115,7 +115,13 @@ export function OrderSummary() {
             <div className="flex justify-between items-center text-sm pt-1">
               <span className="text-muted-foreground">Délka zápůjčky</span>
               <Badge variant="secondary" className="font-normal">
-                {days > 0 ? `${days} dní` : "-"}
+                {days > 4
+                  ? `${days} dní`
+                  : days > 1
+                  ? `${days} dny`
+                  : days > 0
+                  ? `${days} den`
+                  : "-"}
               </Badge>
             </div>
           </div>
@@ -166,7 +172,7 @@ export function OrderSummary() {
                 včetně DPH a dopravy
               </span>
             </div>
-            <span className="text-4xl font-bold text-primary tracking-tight">
+            <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary tracking-tight">
               {total.toLocaleString("cs-CZ")} Kč
             </span>
           </div>

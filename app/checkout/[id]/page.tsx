@@ -4,6 +4,7 @@ import CheckoutForm from "@/components/checkout/checkout-form";
 import { OrderItem, OrderSummary } from "@/components/checkout/order-summary";
 import getStripe from "@/lib/checkout/get-stripejs";
 import { CheckoutProvider } from "@stripe/react-stripe-js/checkout"; // Pozor na správný import
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // Mock Data matching the API endpoint hardcoded values
@@ -19,12 +20,12 @@ const MOCK_ITEMS: OrderItem[] = [
 
 export default function Page() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-
+  const { id } = useParams<{ id: string }>();
   const stripe = getStripe();
 
   useEffect(() => {
     // Vytvoříme session hned po načtení stránky
-    fetch("/api/checkout-sessions", {
+    fetch(`/api/checkout-sessions/${id}`, {
       method: "POST", // Většinou se pro vytvoření session používá POST
     })
       .then((res) => res.json())

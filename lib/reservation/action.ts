@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const orderSchema = z.object({
@@ -14,7 +15,17 @@ const orderSchema = z.object({
   // Změna: Očekáváme pole čísel (posíláme rovnou IDčka)
   headsetIds: z.array(z.number()).min(1, "Musíte vybrat alespoň jeden headset"),
   // Transformace Date -> ISO String přímo v Zodu
-  fromDate: z.coerce.date().transform((d) => d.toISOString()),
+  fromDate: z.coerce
+    .date()
+    .refine(
+      (date) => {
+        const now = new Date();
+        const minDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours from now
+        return date >= minDate;
+      },
+      { message: "Rezervace musí být vytvořena minimálně 24 hodin předem." }
+    )
+    .transform((d) => d.toISOString()),
   toDate: z.coerce.date().transform((d) => d.toISOString()),
 });
 
@@ -66,11 +77,22 @@ export async function createOrderAction(
   const validated = orderSchema.safeParse(rawData);
 
   if (!validated.success) {
-    console.error("Validation failed:", validated.error.flatten().fieldErrors);
+    const errors = validated.error.flatten().fieldErrors;
+    console.error("Validation failed:", errors);
+
+    if (errors.fromDate) {
+      return {
+        success: false,
+        errors,
+        message: "Rezervace musí být vytvořena minimálně 24 hodin předem.",
+        fields,
+      };
+    }
+
     return {
       success: false,
-      errors: validated.error.flatten().fieldErrors,
-      message: "Please fix the form errors.",
+      errors,
+      message: "Prosím opravte chyby v formuláři.",
       fields,
     };
   }
@@ -99,5 +121,5 @@ export async function createOrderAction(
     return { success: false, message: error.message, fields };
   }
 
-  return { success: true, orderId: orderId };
+  redirect(`/checkout/${orderId}`);
 }

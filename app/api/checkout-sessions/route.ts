@@ -1,8 +1,34 @@
+import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
+  console.log("params", { id });
+  const orderId = id;
+
+  const supabase = await createClient();
+
+  const { data: order, error } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("id", orderId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching order:", error);
+    return NextResponse.json(
+      { error: `Supabase error: ${error}` },
+      { status: 500 }
+    );
+  }
+
+  console.log("order the order is", order);
+
   try {
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -29,8 +55,6 @@ export async function POST(req: NextRequest) {
       // The URL of your payment completion page
       return_url: "http://localhost:3000/checkout/success",
     });
-
-    console.log(session);
 
     return NextResponse.json({
       checkoutSessionClientSecret: session.client_secret,

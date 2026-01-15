@@ -84,6 +84,8 @@ export function ReservationForm({
     }
   }, [state.success, onSuccess, resetAll]);
 
+  console.log(state);
+
   if (state.success) {
     return (
       <div className="flex flex-col items-center justify-center h-full py-10 space-y-4">
@@ -102,17 +104,15 @@ export function ReservationForm({
   return (
     <>
       {/* GLOBAL ALERT (Top Right) */}
-      {state.message &&
-        !state.success &&
-        Object.keys(state.errors || {}).length === 0 && (
-          <div className="fixed top-4 right-4 z-[100] w-full max-w-sm animate-in fade-in slide-in-from-top-5">
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4 text-white" />
-              <AlertTitle>Chyba</AlertTitle>
-              <AlertDescription>{state.message}</AlertDescription>
-            </Alert>
-          </div>
-        )}
+      {state.message && !state.success && (
+        <div className="fixed top-4 right-4 z-[100] w-full max-w-sm animate-in fade-in slide-in-from-top-5">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4 text-white" />
+            <AlertTitle>Chyba</AlertTitle>
+            <AlertDescription>{state.message}</AlertDescription>
+          </Alert>
+        </div>
+      )}
 
       <form
         action={formAction}
@@ -251,8 +251,8 @@ export function ReservationForm({
               Aktuálně doručujeme pouze po Brně.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="grid gap-2 col-span-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid gap-2 sm:col-span-2">
               <Label
                 htmlFor="street"
                 className={state.errors?.street ? "text-destructive" : ""}
@@ -312,7 +312,7 @@ export function ReservationForm({
             {selectedHeadsets.map((id) => (
               <div
                 key={id}
-                className="flex justify-between items-center text-sm"
+                className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center text-sm"
               >
                 <span>{headsetNames[id]}</span>
                 <Badge variant="outline" className="font-mono">
@@ -358,9 +358,9 @@ export function ReservationForm({
 
           <Separator />
 
-          <div className="flex justify-between items-end">
+          <div className="flex flex-col gap-1 items-start sm:flex-row sm:justify-between sm:items-end">
             <span className="font-semibold">Celkem k úhradě</span>
-            <span className="text-2xl font-bold text-primary">
+            <span className="text-xl sm:text-2xl font-bold text-primary">
               {totalPrice} Kč
             </span>
           </div>
@@ -391,7 +391,7 @@ export function ReservationForm({
           const nextDay = new Date(now);
           nextDay.setDate(now.getDate() + 1);
 
-          formData.append("fromDate", now.toISOString());
+          formData.append("fromDate", nextDay.toISOString());
           formData.append("toDate", nextDay.toISOString());
 
           // Trigger the action directly

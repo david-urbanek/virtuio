@@ -14,14 +14,15 @@ export function ReservationFlow() {
   return (
     <div className="container mx-auto py-10 px-4 max-w-[1400px]">
       <h2 className="tracking-tight mb-8 text-left">Vytvořit rezervaci:</h2>
-      <div className="flex flex-col lg:grid lg:grid-cols12 gap-8 items-start">
+
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Part: Headset Selector (Always visible) */}
-        <div className="lg:col-span-3 space-y-8 w-full">
+        <div className="col-span-1 lg:col-span-3 space-y-8 w-full">
           <HeadsetSelector />
         </div>
 
         {/* Middle Part: Calendar (Visible only after headset selection) */}
-        <div className="lg:col-span-5 space-y-8 flex justify-center lg:block w-full">
+        <div className="col-span-1 lg:col-span-5 space-y-8 flex justify-center lg:block w-full">
           {selectedHeadsets.length > 0 && (
             <BlurFade
               delay={0.25}
@@ -34,7 +35,7 @@ export function ReservationFlow() {
         </div>
 
         {/* Right Part: Summary (Visible after headset selection, stays updated) */}
-        <div className="lg:col-span-4 space-y-8 w-full">
+        <div className="col-span-1 lg:col-span-4 space-y-8 w-full">
           {selectedHeadsets.length > 0 && (
             <BlurFade delay={0.4} inView className="w-full">
               <OrderSummary />
