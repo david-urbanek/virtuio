@@ -5,19 +5,18 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
-  console.log("params", { id });
-  const orderId = id;
+  const { id } = await params;
+
+  console.log("id", id);
 
   const supabase = await createClient();
 
   const { data: order, error } = await supabase
-    .from("orders")
+    .from("v_order_checkout_details")
     .select("*")
-    .eq("id", orderId)
-    .single();
+    .eq("order_id", id);
 
   if (error) {
     console.error("Error fetching order:", error);
@@ -29,40 +28,41 @@ export async function POST(
 
   console.log("order the order is", order);
 
+  const email = order[0].customer_email;
+
+  const items = order.map((item) => ({
+    price_data: {
+      currency: "czk",
+      unit_amount: item.daily_rate * 100,
+      product_data: {
+        name: item.headset_name,
+        description: item.headset_name,
+      },
+    },
+    quantity: item.total_days,
+  }));
+
   try {
     const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price_data: {
-            currency: "czk",
-            unit_amount: 50000, // Pozor: 500.00 CZK (v haléřích/setinách!)
-            product_data: {
-              name: "Vlastní název produktu",
-              description: "Tady můžeš napsat cokoliv",
-            },
-          },
-          quantity: 1,
-        },
-      ],
+      line_items: items,
       mode: "payment",
-      customer_email: "urbanek.david@email.cz",
+      customer_email: email,
       ui_mode: "custom",
       currency: "czk",
       metadata: {
-        orderId: "13",
+        orderId: id,
       },
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
-      // The URL of your payment completion page
-      return_url: "http://localhost:3000/checkout/success",
+      return_url: `http://localhost:3000/checkout/${id}/success`,
     });
 
     return NextResponse.json({
       checkoutSessionClientSecret: session.client_secret,
     });
   } catch (error) {
-    console.error("Error creating checkout session:", error);
+    console.error("Stripe error creating checkout session:", error);
     return NextResponse.json(
-      { error: `Internal server error: ${error}` },
+      { error: `Stripe error: ${error}` },
       { status: 500 }
     );
   }

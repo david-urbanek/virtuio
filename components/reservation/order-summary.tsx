@@ -29,8 +29,6 @@ export function OrderSummary() {
 
   function countDays() {
     if (!date?.from || !date?.to) return 0;
-    if (differenceInDays(date.to, date.from) === 0) return 1;
-    if (differenceInDays(date.to, date.from) === 1) return 2;
     return differenceInDays(date.to, date.from) + 1;
   }
 
