@@ -56,8 +56,25 @@ export async function POST(
       return_url: `http://localhost:3000/checkout/${id}/success`,
     });
 
+    const orderItems = order.map((item) => ({
+      id: item.headset_id || item.id, // Fallback if headset_id isn't explicitly there, though it should be
+      name: item.headset_name,
+      quantity: item.total_days, // Assuming quantity logic is day-based as per user request
+      price: item.daily_rate,
+      dateRange: `${new Date(item.rental_period_start).toLocaleDateString(
+        "cs-CZ"
+      )} - ${new Date(item.rental_period_end).toLocaleDateString("cs-CZ")}`,
+    }));
+
+    const totalPrice = orderItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+
     return NextResponse.json({
       checkoutSessionClientSecret: session.client_secret,
+      orderItems,
+      totalPrice,
     });
   } catch (error) {
     console.error("Stripe error creating checkout session:", error);
