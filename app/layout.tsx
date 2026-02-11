@@ -1,5 +1,6 @@
 import { Footer6 } from "@/components/footer";
 import { Navbar17 } from "@/components/navbar17";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { inter } from "./fonts";
 import "./globals.css";
@@ -21,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="cs">
       <body
-        className={`${inter.className} ${inter.variable} antialiased min-w-screen flex flex-col items-center justify-center px-8 md:px-16 lg:px-32 min-h-[100dvh]`}
+        className={`${inter.className} ${inter.variable} antialiased min-w-screen flex flex-col items-center justify-center px-4 md:px-16 lg:px-32 min-h-[100dvh] w-full`}
       >
         <header className="container flex flex-col items-center justify-center">
           <Navbar17></Navbar17>
@@ -30,6 +31,7 @@ export default function RootLayout({
         <footer className="container w-full mt-16">
           <Footer6></Footer6>
         </footer>
+        <Toaster position="top-right" />
       </body>
     </html>
   );
