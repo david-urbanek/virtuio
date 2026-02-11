@@ -15,8 +15,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 const NAV_LOGO = {
   url: "/",
@@ -113,8 +113,9 @@ const Navbar17 = () => {
             variant="outline"
             size="sm"
             className="h-10 py-2.5 text-sm font-normal"
+            asChild
           >
-            <Link href="/kontakt">Rezervace</Link>
+            <a href="/#rezervace">Rezervace</a>
           </Button>
         </div>
       </nav>

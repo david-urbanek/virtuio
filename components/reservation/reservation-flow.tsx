@@ -12,7 +12,7 @@ export function ReservationFlow() {
   const { selectedHeadsets } = useReservations();
 
   return (
-    <div className="container mx-auto py-10 px-4 max-w-[1400px]">
+    <div id="rezervace" className="container mx-auto py-10 px-4 max-w-[1400px]">
       <h2 className="tracking-tight mb-8 text-left">Vytvořit rezervaci:</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-12 gap-6 items-start">
