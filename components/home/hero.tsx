@@ -1,12 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import heroImage from "@/app/assets/home/hero-image.png";
-import { GraduationCapIcon, HouseIcon, ZapIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { GraduationCapIcon, HouseIcon, ZapIcon } from "lucide-react";
 
 const features = [
   {
@@ -58,14 +54,16 @@ const Hero = () => {
             {featuresElements}
           </BlurFade>
           <BlurFade delay={0.4} inView>
-            <HoverBorderGradient
-              duration={1}
-              clockwise={true}
-              as="button"
-              className="rounded-full bg-gray-900 hover:bg-gray-800 text-white border-[1px]"
-            >
-              <Link href="/kontakt">Kontaktujte nás</Link>
-            </HoverBorderGradient>
+            <a href="/#rezervace">
+              <HoverBorderGradient
+                duration={1}
+                clockwise={true}
+                as="div"
+                className="rounded-full bg-gray-900 hover:bg-gray-800 text-white border-[1px]"
+              >
+                Kontaktujte nás
+              </HoverBorderGradient>
+            </a>
           </BlurFade>
         </div>
         {/* Hero video */}
