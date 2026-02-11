@@ -26,9 +26,11 @@ export async function POST(
     );
   }
 
-  console.log("order the order is", order);
-
   const email = order[0].customer_email;
+
+  const name = order[0].customer_name + " " + order[0].customer_surname;
+
+  const phone = order[0].customer_phone;
 
   const items = order.map((item) => ({
     price_data: {
@@ -52,6 +54,7 @@ export async function POST(
       metadata: {
         orderId: id,
       },
+      customer_creation: "always",
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
       return_url: `http://localhost:3000/checkout/${id}/success`,
     });
