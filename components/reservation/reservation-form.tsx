@@ -1,6 +1,4 @@
-"use client";
-
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+// ... imports
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,22 +6,25 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { createOrderAction } from "@/lib/reservation/action";
 import { format } from "date-fns";
-import { AlertCircle, CheckCircle2, Info, Loader2 } from "lucide-react";
+import { cs } from "date-fns/locale";
+import { Info } from "lucide-react";
 import { useActionState, useEffect } from "react";
-import { DateRange } from "react-day-picker";
+
+// ... imports
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useReservations } from "@/context/reservationContext";
+import { subDays } from "date-fns";
+import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
 
 interface ReservationFormProps {
-  selectedHeadsets: string[];
-  date: DateRange | undefined;
   totalPrice: number;
-  headsetNames: Record<string, string>;
-  headsetPrices: Record<string, number>;
   days: number;
-  deliveryDate: Date | null;
-  pickupDate: Date | undefined;
   onSuccess?: () => void;
 }
+
+// ... imports
+// ... imports
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -32,26 +33,42 @@ function SubmitButton() {
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Processing...
+          Zpracovávám...
         </>
       ) : (
-        "Place Order"
+        "Objednat"
       )}
     </Button>
   );
 }
+// ... SubmitButton
 
 export function ReservationForm({
-  selectedHeadsets,
-  date,
   totalPrice,
-  headsetNames,
-  headsetPrices,
   days,
-  deliveryDate,
-  pickupDate,
   onSuccess,
 }: ReservationFormProps) {
+  const {
+    headsets,
+    selectedHeadsets,
+    date,
+    formData,
+    updateFormField,
+    resetAll,
+  } = useReservations();
+
+  const headsetNames = headsets.reduce(
+    (acc, h) => ({ ...acc, [h.id]: h.name }),
+    {} as Record<string, string>
+  );
+  const headsetPrices = headsets.reduce(
+    (acc, h) => ({ ...acc, [h.id]: h.daily_rate }),
+    {} as Record<string, number>
+  );
+
+  const deliveryDate = date?.from ? subDays(date.from, 1) : null;
+  const pickupDate = date?.to || date?.from;
+
   const [state, formAction] = useActionState(createOrderAction, {
     success: false,
     message: "",
@@ -59,40 +76,50 @@ export function ReservationForm({
     fields: {},
   });
 
+  // ... inside ReservationForm
   useEffect(() => {
     if (state.success) {
       if (onSuccess) onSuccess();
+      resetAll(); // Reset context state on global success
     }
-  }, [state.success, onSuccess]);
+  }, [state.success, onSuccess, resetAll]);
+
+  console.log(state);
 
   if (state.success) {
     return (
       <div className="flex flex-col items-center justify-center h-full py-10 space-y-4">
         <CheckCircle2 className="w-16 h-16 text-green-500" />
-        <h2 className="text-2xl font-bold text-center">Order Confirmed!</h2>
+        <h2 className="text-2xl font-bold text-center">
+          Objednávka potvrzena!
+        </h2>
         <p className="text-center text-muted-foreground">
-          Thank you for your reservation. We will contact you shortly.
+          Děkujeme za vaši rezervaci. Brzy vás budeme kontaktovat.
         </p>
       </div>
     );
   }
 
+  // ... after success check
   return (
     <>
       {/* GLOBAL ALERT (Top Right) */}
-      {state.message &&
-        !state.success &&
-        Object.keys(state.errors || {}).length === 0 && (
-          <div className="fixed top-4 right-4 z-[100] w-full max-w-sm animate-in fade-in slide-in-from-top-5">
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4 text-white" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{state.message}</AlertDescription>
-            </Alert>
-          </div>
-        )}
+      {state.message && !state.success && (
+        <div className="fixed top-4 right-4 z-[100] w-full max-w-sm animate-in fade-in slide-in-from-top-5">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4 text-white" />
+            <AlertTitle>Chyba</AlertTitle>
+            <AlertDescription>{state.message}</AlertDescription>
+          </Alert>
+        </div>
+      )}
 
-      <form action={formAction} className="grid gap-6 py-6">
+      <form
+        action={formAction}
+        className="grid gap-6 py-6"
+        id="reservation-form"
+      >
+        {/* Hidden inputs to pass context data to Server Action */}
         <input
           type="hidden"
           name="headsetIds"
@@ -112,7 +139,7 @@ export function ReservationForm({
         {/* Contact Details Form */}
         <div className="grid gap-4">
           <h3 className="font-semibold text-sm text-foreground">
-            Contact Information
+            Kontaktní údaje
           </h3>
           {/* Name */}
           <div className="grid grid-cols-2 gap-4">
@@ -121,13 +148,14 @@ export function ReservationForm({
                 htmlFor="firstName"
                 className={state.errors?.firstName ? "text-destructive" : ""}
               >
-                First Name
+                Jméno
               </Label>
               <Input
                 id="firstName"
                 name="firstName"
-                placeholder="John"
-                defaultValue={state.fields?.firstName}
+                placeholder="Jan"
+                value={formData.firstName || ""}
+                onChange={(e) => updateFormField("firstName", e.target.value)}
                 className={state.errors?.firstName ? "border-destructive" : ""}
               />
               {state.errors?.firstName && (
@@ -141,13 +169,14 @@ export function ReservationForm({
                 htmlFor="lastName"
                 className={state.errors?.lastName ? "text-destructive" : ""}
               >
-                Last Name
+                Příjmení
               </Label>
               <Input
                 id="lastName"
                 name="lastName"
-                placeholder="Doe"
-                defaultValue={state.fields?.lastName}
+                placeholder="Novák"
+                value={formData.lastName || ""}
+                onChange={(e) => updateFormField("lastName", e.target.value)}
                 className={state.errors?.lastName ? "border-destructive" : ""}
               />
               {state.errors?.lastName && (
@@ -169,8 +198,9 @@ export function ReservationForm({
               id="email"
               name="email"
               type="email"
-              placeholder="john@example.com"
-              defaultValue={state.fields?.email}
+              placeholder="jan.novak@example.com"
+              value={formData.email || ""}
+              onChange={(e) => updateFormField("email", e.target.value)}
               className={state.errors?.email ? "border-destructive" : ""}
             />
             {state.errors?.email && (
@@ -184,14 +214,15 @@ export function ReservationForm({
               htmlFor="phone"
               className={state.errors?.phone ? "text-destructive" : ""}
             >
-              Phone
+              Telefon
             </Label>
             <Input
               id="phone"
               name="phone"
               type="tel"
-              placeholder="+1 234 567 890"
-              defaultValue={state.fields?.phone}
+              placeholder="+420 123 456 789"
+              value={formData.phone || ""}
+              onChange={(e) => updateFormField("phone", e.target.value)}
               className={state.errors?.phone ? "border-destructive" : ""}
             />
             {state.errors?.phone && (
@@ -203,35 +234,37 @@ export function ReservationForm({
 
           {/* Address */}
           <h3 className="font-semibold text-sm text-foreground mt-2">
-            Delivery Address
+            Doručovací adresa
           </h3>
           <div className="grid gap-2">
-            <Label htmlFor="city">City</Label>
+            <Label htmlFor="city">Město</Label>
             <select
               id="city"
               name="city"
+              value={formData.city || "Brno"}
+              onChange={(e) => updateFormField("city", e.target.value)}
               className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              defaultValue="Brno"
             >
               <option value="Brno">Brno</option>
             </select>
             <p className="text-[10px] text-muted-foreground">
-              Currently we only deliver to Brno.
+              Aktuálně doručujeme pouze po Brně.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="grid gap-2 col-span-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid gap-2 sm:col-span-2">
               <Label
                 htmlFor="street"
                 className={state.errors?.street ? "text-destructive" : ""}
               >
-                Street
+                Ulice
               </Label>
               <Input
                 id="street"
                 name="street"
-                placeholder="Main St"
-                defaultValue={state.fields?.street}
+                placeholder="Hlavní"
+                value={formData.street || ""}
+                onChange={(e) => updateFormField("street", e.target.value)}
                 className={state.errors?.street ? "border-destructive" : ""}
               />
               {state.errors?.street && (
@@ -245,13 +278,14 @@ export function ReservationForm({
                 htmlFor="houseNumber"
                 className={state.errors?.houseNumber ? "text-destructive" : ""}
               >
-                No.
+                Č.p.
               </Label>
               <Input
                 id="houseNumber"
                 name="houseNumber"
                 placeholder="123"
-                defaultValue={state.fields?.houseNumber}
+                value={formData.houseNumber || ""}
+                onChange={(e) => updateFormField("houseNumber", e.target.value)}
                 className={
                   state.errors?.houseNumber ? "border-destructive" : ""
                 }
@@ -270,7 +304,7 @@ export function ReservationForm({
         {/* Review Order Summary */}
         <div className="grid gap-4">
           <h3 className="font-semibold text-sm text-foreground">
-            Order Summary
+            Souhrn objednávky
           </h3>
 
           {/* Headsets */}
@@ -278,11 +312,11 @@ export function ReservationForm({
             {selectedHeadsets.map((id) => (
               <div
                 key={id}
-                className="flex justify-between items-center text-sm"
+                className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center text-sm"
               >
                 <span>{headsetNames[id]}</span>
                 <Badge variant="outline" className="font-mono">
-                  ${headsetPrices[id]}/day
+                  {headsetPrices[id]} Kč/day
                 </Badge>
               </div>
             ))}
@@ -291,20 +325,20 @@ export function ReservationForm({
           {/* Dates */}
           <div className="bg-muted/30 p-3 rounded-lg text-xs space-y-1 text-muted-foreground">
             <div className="flex justify-between">
-              <span>From:</span>
+              <span>Od:</span>
               <span className="font-medium text-foreground">
-                {date?.from ? format(date.from, "PPP") : "-"}
+                {date?.from ? format(date.from, "PPP", { locale: cs }) : "-"}
               </span>
             </div>
             <div className="flex justify-between">
-              <span>To:</span>
+              <span>Do:</span>
               <span className="font-medium text-foreground">
-                {pickupDate ? format(pickupDate, "PPP") : "-"}
+                {pickupDate ? format(pickupDate, "PPP", { locale: cs }) : "-"}
               </span>
             </div>
             <div className="flex justify-between pt-1 border-t mt-1">
-              <span>Duration:</span>
-              <span>{days} days</span>
+              <span>Délka:</span>
+              <span>{days} dní</span>
             </div>
           </div>
 
@@ -313,9 +347,9 @@ export function ReservationForm({
             <div className="flex gap-2 text-xs text-muted-foreground items-start">
               <Info className="w-4 h-4 text-primary shrink-0" />
               <p>
-                Delivery scheduled for{" "}
+                Doručení naplánováno na{" "}
                 <span className="font-medium text-foreground">
-                  {format(deliveryDate, "PPP")} at 18:00
+                  {format(deliveryDate, "PPP", { locale: cs })} v 18:00
                 </span>
                 .
               </p>
@@ -324,49 +358,48 @@ export function ReservationForm({
 
           <Separator />
 
-          <div className="flex justify-between items-end">
-            <span className="font-semibold">Total to Pay</span>
-            <span className="text-2xl font-bold text-primary">
-              ${totalPrice}
+          <div className="flex flex-col gap-1 items-start sm:flex-row sm:justify-between sm:items-end">
+            <span className="font-semibold">Celkem k úhradě</span>
+            <span className="text-xl sm:text-2xl font-bold text-primary">
+              {totalPrice} Kč
             </span>
           </div>
         </div>
 
         <div className="mt-4 space-y-3">
           <SubmitButton />
-
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full dashed border-muted-foreground/50"
-            onClick={async () => {
-              const formData = new FormData();
-              formData.append("firstName", "Jan");
-              formData.append("lastName", "Testovač");
-              formData.append("email", "jan.testovac@example.com");
-              formData.append("phone", "+420777888999");
-              formData.append("street", "Testovací Ulice");
-              formData.append("houseNumber", "123/A");
-              formData.append("city", "Brno");
-              // Mocking Headset ID 1 (ensure this exists in your DB or use a valid ID)
-              // The action expects numbers now!
-              formData.append("headsetIds", JSON.stringify([1]));
-
-              const now = new Date();
-              const nextDay = new Date(now);
-              nextDay.setDate(now.getDate() + 1);
-
-              formData.append("fromDate", now.toISOString());
-              formData.append("toDate", nextDay.toISOString());
-
-              // Trigger the action directly
-              formAction(formData);
-            }}
-          >
-            🧪 Test Submit (Mock Data)
-          </Button>
         </div>
       </form>
+      <Button
+        type="button"
+        variant="outline"
+        className="w-full dashed border-muted-foreground/50"
+        onClick={async () => {
+          const formData = new FormData();
+          formData.append("firstName", "Jan");
+          formData.append("lastName", "Testovač");
+          formData.append("email", "jan.testovac@example.com");
+          formData.append("phone", "+420777888999");
+          formData.append("street", "Testovací Ulice");
+          formData.append("houseNumber", "123/A");
+          formData.append("city", "Brno");
+          // Mocking Headset ID 1 (ensure this exists in your DB or use a valid ID)
+          // The action expects numbers now!
+          formData.append("headsetIds", JSON.stringify([1]));
+
+          const now = new Date();
+          const nextDay = new Date(now);
+          nextDay.setDate(now.getDate() + 1);
+
+          formData.append("fromDate", nextDay.toISOString());
+          formData.append("toDate", nextDay.toISOString());
+
+          // Trigger the action directly
+          formAction(formData);
+        }}
+      >
+        🧪 Test Submit (Mock Data)
+      </Button>
     </>
   );
 }

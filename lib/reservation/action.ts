@@ -1,22 +1,31 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const orderSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(6, "Phone number is required"),
-  street: z.string().min(1, "Street is required"),
-  houseNumber: z.string().min(1, "House number is required"),
+  firstName: z.string().min(1, "Jméno je povinné"),
+  lastName: z.string().min(1, "Příjmení je povinné"),
+  email: z.string().email("Neplatná emailová adresa"),
+  phone: z.string().min(6, "Telefonní číslo je povinné"),
+  street: z.string().min(1, "Ulice je povinná"),
+  houseNumber: z.string().min(1, "Číslo popisné je povinné"),
   city: z.string().default("Brno"),
   // Změna: Očekáváme pole čísel (posíláme rovnou IDčka)
-  headsetIds: z
-    .array(z.number())
-    .min(1, "At least one headset must be selected"),
+  headsetIds: z.array(z.number()).min(1, "Musíte vybrat alespoň jeden headset"),
   // Transformace Date -> ISO String přímo v Zodu
-  fromDate: z.coerce.date().transform((d) => d.toISOString()),
+  fromDate: z.coerce
+    .date()
+    .refine(
+      (date) => {
+        const now = new Date();
+        const minDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours from now
+        return date >= minDate;
+      },
+      { message: "Rezervace musí být vytvořena minimálně 24 hodin předem." }
+    )
+    .transform((d) => d.toISOString()),
   toDate: z.coerce.date().transform((d) => d.toISOString()),
 });
 
@@ -68,10 +77,22 @@ export async function createOrderAction(
   const validated = orderSchema.safeParse(rawData);
 
   if (!validated.success) {
+    const errors = validated.error.flatten().fieldErrors;
+    console.error("Validation failed:", errors);
+
+    if (errors.fromDate) {
+      return {
+        success: false,
+        errors,
+        message: "Rezervace musí být vytvořena minimálně 24 hodin předem.",
+        fields,
+      };
+    }
+
     return {
       success: false,
-      errors: validated.error.flatten().fieldErrors,
-      message: "Please fix the form errors.",
+      errors,
+      message: "Prosím opravte chyby v formuláři.",
       fields,
     };
   }
@@ -96,8 +117,9 @@ export async function createOrderAction(
   );
 
   if (error) {
+    console.error("Supabase Error creating order:", error.message);
     return { success: false, message: error.message, fields };
   }
 
-  return { success: true, orderId: orderId };
+  redirect(`/checkout/${orderId}`);
 }
