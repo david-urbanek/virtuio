@@ -10,18 +10,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
-import { DateRange } from "react-day-picker";
 import { ReservationForm } from "./reservation-form";
 
+// ... imports
+
 interface CheckoutSheetProps {
-  selectedHeadsets: string[];
-  date: DateRange | undefined;
   totalPrice: number;
-  headsetNames: Record<string, string>;
-  headsetPrices: Record<string, number>;
   days: number;
-  deliveryDate: Date | null;
-  pickupDate: Date | undefined;
   disabled?: boolean;
 }
 
@@ -36,15 +31,15 @@ export function CheckoutSheet(props: CheckoutSheetProps) {
           size="lg"
           disabled={props.disabled}
         >
-          Finalize Reservation
+          Dokončit rezervaci
         </Button>
       </SheetTrigger>
 
       <SheetContent className="overflow-y-auto sm:max-w-lg p-8">
-        <SheetHeader>
-          <SheetTitle>Complete Your Reservation</SheetTitle>
+        <SheetHeader className="text-left p-0">
+          <SheetTitle>Dokončete svou rezervaci</SheetTitle>
           <SheetDescription>
-            Enter your details to finalize the booking.
+            Zadejte své údaje pro dokončení rezervace.
           </SheetDescription>
         </SheetHeader>
 
