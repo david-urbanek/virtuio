@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Virtuio - VR Headset Rental Platform
 
-## Getting Started
+Aplikace pro půjčování VR headsetů postavená na moderním tech stacku s Next.js, Supabase a Stripe.
 
-First, run the development server:
+## 🚀 Technologie
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Backend & Database
+
+- **Supabase** - PostgreSQL databáze a autentizace
+- **Stripe** - Platební brána pro zpracování plateb
+
+### Frontend
+
+- **Next.js 15** - React framework s App Routerem
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Styling
+
+## 📊 Databázové schéma
+
+Projekt využívá následující databázové struktury:
+
+![Database Schema](./public/database-scheme.png)
+
+### Hlavní tabulky:
+
+- **customers** - Zákazníci a kontaktní údaje
+- **vr_headsets** - Katalog VR headsetů k pronájmu
+- **reservations** - Rezervace headsetů s časovými údaji
+- **orders** - Objednávky a platební informace
+- **addresses** - Dodací adresy zákazníků
+
+## 💳 Platební proces
+
+Aplikace využívá **Stripe** pro zpracování plateb. Po úspěšné platbě:
+
+1. Stripe odešle webhook na náš endpoint
+2. Webhook potvrdí objednávku
+3. Status objednávky se změní z `pending` na `paid`
+4. Zákazník obdrží potvrzovací email
+
+### Stripe Webhook
+
+Webhook endpoint zpracovává událost `checkout.session.completed` a automaticky aktualizuje status objednávky v databázi.
+
+```typescript
+// Příklad zpracování webhooku
+stripe.webhooks.constructEvent(...)
+// -> Ověření podpisu
+// -> Aktualizace order.status na 'paid'
+// -> Odeslání potvrzovacího emailu
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Instalace
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Instalace závislostí
+pnpm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Spuštění dev serveru
+pnpm dev
+```
 
-## Learn More
+Aplikace běží na [http://localhost:3000](http://localhost:3000)
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Nastavení prostředí
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Vytvoř soubor `.env.local` s následujícími proměnnými:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-## Deploy on Vercel
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_pk
+STRIPE_SECRET_KEY=your_stripe_sk
+STRIPE_WEBHOOK_SECRET=your_webhook_secret
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 Licence
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© 2026 Virtuio
