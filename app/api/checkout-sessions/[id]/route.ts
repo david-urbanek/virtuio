@@ -5,7 +5,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
 
@@ -22,7 +22,7 @@ export async function POST(
     console.error("Error fetching order:", error);
     return NextResponse.json(
       { error: `Supabase error: ${error}` },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -56,7 +56,7 @@ export async function POST(
       },
       customer_creation: "always",
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
-      return_url: `http://localhost:3000/checkout/${id}/success`,
+      return_url: `/checkout/${id}/success`,
     });
 
     const orderItems = order.map((item) => ({
@@ -65,13 +65,13 @@ export async function POST(
       quantity: item.total_days, // Assuming quantity logic is day-based as per user request
       price: item.daily_rate,
       dateRange: `${new Date(item.rental_period_start).toLocaleDateString(
-        "cs-CZ"
+        "cs-CZ",
       )} - ${new Date(item.rental_period_end).toLocaleDateString("cs-CZ")}`,
     }));
 
     const totalPrice = orderItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
-      0
+      0,
     );
 
     return NextResponse.json({
@@ -83,7 +83,7 @@ export async function POST(
     console.error("Stripe error creating checkout session:", error);
     return NextResponse.json(
       { error: `Stripe error: ${error}` },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
